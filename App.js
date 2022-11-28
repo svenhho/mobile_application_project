@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './scenes/Login';
@@ -9,11 +9,14 @@ import Settings from './scenes/Settings';
 import SpinningWheel from './scenes/SpinningWheel';
 import User from './scenes/User';
 import Workout from './scenes/Workout';
+import { Text, View } from 'react-native';
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  
   return (
     <NavigationContainer>
       <Stack.Navigator>
