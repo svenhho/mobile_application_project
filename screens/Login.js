@@ -4,8 +4,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthP
 import { authentication } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Login(){
-    
+export default function Login() {
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -14,45 +14,45 @@ export default function Login(){
     useEffect(() => {
         const unsubscribe = authentication.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace('Homepage')
-        }
+                navigation.replace('main')
+            }
         })
         return unsubscribe
     }, [])
-    
+
 
     // create user / register (validate and verify in registration before calling this function, password>5!!)
     const createUser = () => {
         createUserWithEmailAndPassword(authentication, email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log('Registered with: ' + user.email);
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-            // ..
-        });
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                console.log('Registered with: ' + user.email);
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+                // ..
+            });
     }
 
     // log in
     const loginUser = () => {
         signInWithEmailAndPassword(authentication, email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log('Logged in with: ' + user.email);
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-            // ..
-        });
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                console.log('Logged in with: ' + user.email);
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+                // ..
+            });
     }
 
     // sign out
@@ -61,11 +61,11 @@ export default function Login(){
             // Sign-out successful.
             console.log("signout")
         }).catch((error) => {
-        // An error happened.
-        console.log(error)
+            // An error happened.
+            console.log(error)
         });
     }
-    
+
     /** 
     // sign in with google popup window
     signInWithPopup(auth, provider)
@@ -87,24 +87,24 @@ export default function Login(){
             // ...
         });*/
 
-    return(
+    return (
         <KeyboardAvoidingView
             style={styles.container}
             behaviour="padding"
         >
             <View style={styles.inputContainer}>
-                <TextInput 
-                    placeholder='Email' 
+                <TextInput
+                    placeholder='Email'
                     value={email}
                     onChangeText={text => setEmail(text)}
-                    style={styles.input}/>
-                <TextInput 
+                    style={styles.input} />
+                <TextInput
                     placeholder='Password'
                     value={password}
-                    onChangeText={text => setPassword(text)} 
+                    onChangeText={text => setPassword(text)}
                     secureTextEntry
-                    style={styles.input}/>
-                
+                    style={styles.input} />
+
             </View>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -113,7 +113,7 @@ export default function Login(){
                 >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                     onPress={createUser}
                     style={[styles.button, styles.buttonOutline]}
@@ -127,48 +127,48 @@ export default function Login(){
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#191414',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#191414',
     },
     inputContainer: {
-      width: '80%',
+        width: '80%',
     },
     input: {
-      backgroundColor: 'white',
-      paddingHorizontal: 15,
-      paddingVertical: 10,
-      borderRadius: 10,
-      marginTop: 5,
+        backgroundColor: 'white',
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderRadius: 10,
+        marginTop: 5,
     },
     buttonContainer: {
-      width: '60%',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 40,
+        width: '60%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 40,
     },
     button: {
-      backgroundColor: '#1db954',
-      width: '100%',
-      padding: 15,
-      borderRadius: 10,
-      alignItems: 'center',
+        backgroundColor: '#1db954',
+        width: '100%',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
     },
     buttonOutline: {
-      backgroundColor: 'white',
-      marginTop: 5,
-      borderColor: '#1db954',
-      borderWidth: 2,
+        backgroundColor: 'white',
+        marginTop: 5,
+        borderColor: '#1db954',
+        borderWidth: 2,
     },
     buttonText: {
-      color: 'white',
-      fontWeight: '700',
-      fontSize: 16,
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
     },
     buttonOutlineText: {
-      color: '#1db954',
-      fontWeight: '700',
-      fontSize: 16,
+        color: '#1db954',
+        fontWeight: '700',
+        fontSize: 16,
     },
-  })
+})

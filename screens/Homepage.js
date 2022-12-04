@@ -1,13 +1,13 @@
 import React from 'react'
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
 
-export default function Homepage({ navigation }){
-    return(
+export default function Homepage({ navigation }) {
+    return (
         <View style={styles.container}>
             <Text>Main page in the application with "Hello _name_" and options</Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                style={[styles.button, styles.buttonOutline]}
+                    style={[styles.button, styles.buttonOutline]}
                     title="Go to Settings"
                     onPress={() =>
                         navigation.navigate('Settings')
@@ -29,7 +29,7 @@ export default function Homepage({ navigation }){
                 ><Text style={styles.buttonText}>user</Text></TouchableOpacity>
             </View>
         </View>
-            )
+    )
 }
 
 const styles = StyleSheet.create({
@@ -38,27 +38,27 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#191414',
-      },
-      buttonContainer: {
+    },
+    buttonContainer: {
         width: '60%',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40,
-      },
+    },
     button: {
         backgroundColor: '#1db954',
         width: '100%',
         padding: 15,
         borderRadius: 10,
         alignItems: 'center',
-      },
-      buttonOutline: {
+    },
+    buttonOutline: {
         marginTop: 5,
         borderWidth: 2,
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: 'white',
         fontWeight: '700',
         fontSize: 16,
-      },
+    },
 })
