@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Popup from 'reactjs-popup';
+
 
 // Screens
 import Homepage from './Homepage';
 import Calendar from './Calendar';
 import User from './User';
-import Setting from './Settings'
+import PlanWorkout from './PlanWorkout'
 
 //Screen names
-const homeName = "Home";
+const homeName = "ExerPlan";
 const calendarName = "Calendar";
 const userName = "User";
-const settingsName = "Settings"
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,7 @@ const Navigation = ({ navigation }) => {
             initialRouteName={homeName}
             padding={48}
             screenOptions={({ route }) => ({
+                padding: 200,
                 activeTintColor: '#1db954s',
                 inactiveTintColor: 'grey',
                 labelStyle: { paddingBottom: 10, fontSize: 10 },
@@ -40,20 +42,29 @@ const Navigation = ({ navigation }) => {
                     }
 
                     return <Ionicons name={iconName} size={size} color={color} />;
+
                 },
             })}>
 
-            <Tab.Screen name={homeName} component={Homepage} />
+            <Tab.Screen name={homeName} component={Homepage}
+                options={{
+                    headerRight: () => (
+                        <Ionicons name={'add'} size={25} color={'grey'}
+                            onPress={() =>
+                                navigation.navigate('PlanWorkout')
+                            } />
+                    ),
+                }} />
+
+
             <Tab.Screen name={calendarName} component={Calendar} />
             <Tab.Screen name={userName} component={User}
                 options={{
-                    margin: 200,
                     headerRight: () => (
                         <Ionicons name={'settings'} size={25} color={'grey'}
                             onPress={() =>
                                 navigation.navigate('Settings')
                             } />
-
                     ),
                 }} />
 

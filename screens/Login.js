@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "firebase/auth";
 import { authentication } from '../firebase';
-import { useNavigation } from '@react-navigation/native';
+import * as Google from 'expo-google-sign-in';
+import * as Facebook from 'expo-facebook';
 
-export default function Login() {
+export default function Login({ navigation }) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-    const navigation = useNavigation()
 
     useEffect(() => {
         const unsubscribe = authentication.onAuthStateChanged(user => {
@@ -20,23 +19,6 @@ export default function Login() {
         return unsubscribe
     }, [])
 
-
-    // create user / register (validate and verify in registration before calling this function, password>5!!)
-    const createUser = () => {
-        createUserWithEmailAndPassword(authentication, email, password)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log('Registered with: ' + user.email);
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-                // ..
-            });
-    }
 
     // log in
     const loginUser = () => {
@@ -66,33 +48,16 @@ export default function Login() {
         });
     }
 
-    /** 
-    // sign in with google popup window
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            // ...
-        }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
-        });*/
-
     return (
         <KeyboardAvoidingView
             style={styles.container}
             behaviour="padding"
         >
+            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Please sign in to continue.</Text>
+
             <View style={styles.inputContainer}>
+
                 <TextInput
                     placeholder='Email'
                     value={email}
@@ -113,14 +78,18 @@ export default function Login() {
                 >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
-
+            </View>
+            <View >
                 <TouchableOpacity
-                    onPress={createUser}
-                    style={[styles.button, styles.buttonOutline]}
+                    onPress={() =>
+                        navigation.navigate('Register')
+                    }
                 >
-                    <Text style={styles.buttonOutlineText}>Register</Text>
+                    <Text style={styles.signUpButtonText}>Sign up</Text>
                 </TouchableOpacity>
             </View>
+
+
         </KeyboardAvoidingView>
     )
 }
@@ -170,5 +139,14 @@ const styles = StyleSheet.create({
         color: '#1db954',
         fontWeight: '700',
         fontSize: 16,
+    },
+    signUpButton: {
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+    },
+    signUpButtonText: {
+        color: 'blue',
+        fontSize: 16,
+        textDecorationLine: 'underline',
     },
 })
