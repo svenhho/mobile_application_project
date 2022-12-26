@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "firebase/auth";
 import { authentication } from '../firebase';
-import * as Google from 'expo-google-sign-in';
-import * as Facebook from 'expo-facebook';
 
 export default function Login({ navigation }) {
 
