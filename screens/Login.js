@@ -74,7 +74,7 @@ export default function Login({ navigation }) {
                     onPress={loginUser}
                     style={styles.button}
                 >
-                    <Text style={styles.buttonText}>Login</Text>
+                    <Text style={styles.buttonText}>Log in</Text>
                 </TouchableOpacity>
             </View>
             <View >
