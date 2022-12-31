@@ -4,7 +4,6 @@ import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
 export default function Homepage({ navigation }) {
     return (
         <View style={styles.container}>
-            <Text>Main page in the application with "Hello _name_" and options</Text>
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={[styles.button, styles.buttonOutline]}
@@ -12,21 +11,7 @@ export default function Homepage({ navigation }) {
                     onPress={() =>
                         navigation.navigate('Settings')
                     }
-                ><Text style={styles.buttonText}>settings</Text></TouchableOpacity>
-                <TouchableOpacity
-                    title="Go to personal records"
-                    style={[styles.button, styles.buttonOutline]}
-                    onPress={() =>
-                        navigation.navigate('Personal Records')
-                    }
-                ><Text style={styles.buttonText}>records</Text></TouchableOpacity>
-                <TouchableOpacity
-                    title="Go to User"
-                    style={[styles.button, styles.buttonOutline]}
-                    onPress={() =>
-                        navigation.navigate('User')
-                    }
-                ><Text style={styles.buttonText}>user</Text></TouchableOpacity>
+                ><Text style={styles.buttonText}>Spotify</Text></TouchableOpacity>
             </View>
         </View>
     )
