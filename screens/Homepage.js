@@ -1,9 +1,14 @@
 import React from 'react'
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Homepage({ navigation }) {
     return (
         <View style={styles.container}>
+            <Ionicons name={'add'} size={25} color={'grey'}
+                onPress={() =>
+                    navigation.navigate('PlanWorkout')
+                } />
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={[styles.button, styles.buttonOutline]}

@@ -46,17 +46,7 @@ const Navigation = ({ navigation }) => {
                 },
             })}>
 
-            <Tab.Screen name={homeName} component={Homepage}
-                options={{
-                    headerRight: () => (
-                        <Ionicons name={'add'} size={25} color={'grey'}
-                            onPress={() =>
-                                navigation.navigate('PlanWorkout')
-                            } />
-                    ),
-                }} />
-
-
+            <Tab.Screen name={homeName} component={Homepage} />
             <Tab.Screen name={calendarName} component={Calendar} />
             <Tab.Screen name={userName} component={User}
                 options={{

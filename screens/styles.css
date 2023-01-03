@@ -1,0 +1,62 @@
+.container {
+    flex: 1;
+    justify-content: 'center';
+    align-items: 'center';
+    background-color: '#191414';
+}
+
+.buttonContainer {
+    width: '60%';
+    justify-content: 'center';
+    align-items: 'center';
+    margin-top: 40;
+}
+
+.button {
+    background-color: '#1db954';
+    width: '100%';
+    padding: 15;
+    border-radius: 10;
+    align-items: 'center';
+}
+
+.buttonOutline {
+    margin-top: 5;
+    border-width: 2;
+}
+
+.buttonText {
+    color: 'white';
+    font-weight: '700';
+    font-size: 16;
+}
+
+/* specifically for login.js*/
+
+.inputContainer {
+    width: '80%';
+}
+
+.input {
+    background-color: 'white';
+    padding: 15;
+    border-radius: 10;
+    margin-top: 5;
+}
+
+.buttonOutlineText {
+    color: '#1db954';
+    font-weight: '700';
+    font-size: 16;
+}
+
+.signUpButton {
+    align-items: 'center';
+    background-color: 'transparent';
+}
+
+.signUpButtonText {
+    color: 'blue';
+    font-size: 16;
+    text-decoration-line: 'underline';
+}
