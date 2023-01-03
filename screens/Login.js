@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import { Alert, TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "firebase/auth";
 import { authentication } from '../firebase';
 
@@ -17,6 +17,16 @@ export default function Login({ navigation }) {
         return unsubscribe
     }, [])
 
+    const displayError = (errorMessage) => {
+        Alert.alert(
+          'Error',
+          errorMessage,
+          [
+            { text: 'OK', onPress: () => console.log('OK pressed') },
+          ],
+          { cancelable: false }
+        );
+      }
 
     // log in
     const loginUser = () => {
@@ -28,6 +38,7 @@ export default function Login({ navigation }) {
                 // ...
             })
             .catch((error) => {
+                displayError("Email, password or both is not correct")
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode, errorMessage);
@@ -35,16 +46,6 @@ export default function Login({ navigation }) {
             });
     }
 
-    // sign out
-    const signOutUser = () => {
-        signOut(auth).then(() => {
-            // Sign-out successful.
-            console.log("signout")
-        }).catch((error) => {
-            // An error happened.
-            console.log(error)
-        });
-    }
 
     return (
         <KeyboardAvoidingView

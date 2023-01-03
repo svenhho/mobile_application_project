@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import AppNavigator from './AppNavigator';
+import AppNavigator from '../AppNavigator';
 
 // code and inspiration: https://callstack.github.io/react-native-testing-library/docs/react-navigation/
 
@@ -13,7 +13,8 @@ import AppNavigator from './AppNavigator';
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 describe('Testing react navigation', () => {
-  test('Buttons exists', async () => {
+  
+  test('clicking on register takes you to the new screen', async () => {
     const component = (
       <NavigationContainer>
         <AppNavigator />
@@ -21,13 +22,13 @@ describe('Testing react navigation', () => {
     );
 
     render(component);
+    const toClick = await screen.findByText('Sign up');
 
-    const loginText = await screen.findByText('Log in');
-    const registrationText = await screen.findByText('Sign up');
+    fireEvent(toClick, 'press');
+    const newButton = await screen.findByText('Register');
 
-    expect(loginText).toBeTruthy();
-    expect(registrationText).toBeTruthy();
-
+    expect(newButton).toBeTruthy();
   });
-
 });
+
+// log in with wrong and log in with right users

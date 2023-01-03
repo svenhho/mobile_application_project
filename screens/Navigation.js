@@ -8,7 +8,6 @@ import Popup from 'reactjs-popup';
 import Homepage from './Homepage';
 import Calendar from './Calendar';
 import User from './User';
-import PlanWorkout from './PlanWorkout'
 
 //Screen names
 const homeName = "ExerPlan";
