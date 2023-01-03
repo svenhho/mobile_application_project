@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Button, TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import { Alert, TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "firebase/auth";
 import { authentication } from '../firebase';
-import { Alert } from 'react-native';
-
 
 
 
@@ -43,6 +41,7 @@ export default function Register() {
           // ...
         })
         .catch((error) => {
+          displayError('Email already in use. Register with another email. If the email is yours, go back to the log in page and use the email and password to access the app')
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log(errorCode, errorMessage);
@@ -60,11 +59,13 @@ export default function Register() {
       <View style={styles.inputContainer}>
 
         <TextInput
+          testID='email'
           placeholder='Email'
           value={email}
           onChangeText={text => setEmail(text)}
           style={styles.input} />
         <TextInput
+          testID='password'
           placeholder='Password'
           value={password}
           onChangeText={text => setPassword(text)}
@@ -74,6 +75,7 @@ export default function Register() {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
+          testID='button'
           onPress={handleSignUp}
           style={styles.button}
         >
