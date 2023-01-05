@@ -1,18 +1,16 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Popup from 'reactjs-popup';
 
 
 // Screens
-import Homepage from './Homepage';
-import Calendar from './Calendar';
-import User from './User';
-import PlanWorkout from './PlanWorkout'
+import GroupPage from '../screens/Groups/GroupPage';
+import GroupUp from '../screens/Matches/GroupUp';
+import User from '../screens/User';
 
 //Screen names
-const homeName = "ExerPlan";
-const calendarName = "Calendar";
+const groupPageName = "My Group";
+const groupUpName = "GroupUp";
 const userName = "User";
 
 const Tab = createBottomTabNavigator();
@@ -20,7 +18,7 @@ const Tab = createBottomTabNavigator();
 const Navigation = ({ navigation }) => {
     return (
         <Tab.Navigator
-            initialRouteName={homeName}
+            initialRouteName={groupUpName}
             padding={48}
             screenOptions={({ route }) => ({
                 padding: 200,
@@ -33,10 +31,10 @@ const Navigation = ({ navigation }) => {
                     let iconName;
                     let rn = route.name;
 
-                    if (rn === homeName) {
-                        iconName = focused ? 'home' : 'home-outline';
-                    } else if (rn === calendarName) {
-                        iconName = focused ? 'calendar' : 'calendar-outline'
+                    if (rn === groupPageName) {
+                        iconName = focused ? 'people' : 'people-outline';
+                    } else if (rn === groupUpName) {
+                        iconName = focused ? 'heart' : 'heart-outline'
                     } else if (rn === userName) {
                         iconName = focused ? 'person' : 'person-outline'
                     }
@@ -46,18 +44,8 @@ const Navigation = ({ navigation }) => {
                 },
             })}>
 
-            <Tab.Screen name={homeName} component={Homepage}
-                options={{
-                    headerRight: () => (
-                        <Ionicons name={'add'} size={25} color={'grey'}
-                            onPress={() =>
-                                navigation.navigate('PlanWorkout')
-                            } />
-                    ),
-                }} />
-
-
-            <Tab.Screen name={calendarName} component={Calendar} />
+            <Tab.Screen name={groupPageName} component={GroupPage} />
+            <Tab.Screen name={groupUpName} component={GroupUp} />
             <Tab.Screen name={userName} component={User}
                 options={{
                     headerRight: () => (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "firebase/auth";
-import { authentication } from '../firebase';
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth } from '../firebase-config';
 
 export default function Login({ navigation }) {
 
@@ -9,7 +9,7 @@ export default function Login({ navigation }) {
     const [password, setPassword] = useState('')
 
     useEffect(() => {
-        const unsubscribe = authentication.onAuthStateChanged(user => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
                 navigation.replace('main')
             }
@@ -20,7 +20,7 @@ export default function Login({ navigation }) {
 
     // log in
     const loginUser = () => {
-        signInWithEmailAndPassword(authentication, email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
@@ -80,7 +80,7 @@ export default function Login({ navigation }) {
             <View >
                 <TouchableOpacity
                     onPress={() =>
-                        navigation.navigate('Register')
+                        navigation.replace('Register')
                     }
                 >
                     <Text style={styles.signUpButtonText}>Sign up</Text>

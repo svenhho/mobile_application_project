@@ -1,55 +1,57 @@
 import React, { useEffect, useState } from 'react'
-import { Button, TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "firebase/auth";
-import { authentication } from '../firebase';
-import { Alert } from 'react-native';
+import { TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
+import { auth, app } from "../../firebase-config";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/firestore';
 
 
 
 
-export default function Register() {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [passwordError, setPasswordError] = React.useState('')
+export default function Register({ navigation }) {
 
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const [email, setEmail] = useState('');
 
-  function validatePassword(password) {
-    return passwordRegex.test(password);
-  }
-  const displayError = (errorMessage) => {
-    Alert.alert(
-      'Error',
-      errorMessage,
-      [
-        { text: 'OK', onPress: () => console.log('OK pressed') },
-      ],
-      { cancelable: false }
-    );
-  }
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
-  // create user / register (validate and verify in registration before calling this function, password>5!!)
-  const handleSignUp = () => {
-    setPassword(password);
-    if (!validatePassword(password)) {
-      displayError('Password must be at least 8 characters long and contain at least one letter, one number, and one special character');
-    } else {
-      createUserWithEmailAndPassword(authentication, email, password)
-        .then((userCredential) => {
-          // Signed in
-          const user = userCredential.user;
-          console.log('Registered with: ' + user.email);
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
-          // ..
-        });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        navigation.replace('main')
+      }
+    })
+    return unsubscribe
+  }, [])
+
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Create the user in the Firebase authentication system
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      // Navigate to the login screen
+      navigation.replace('Login');
+
+      const userId = `${userCredential.user.uid}`;
+      console.log(userId);
+
+
+      // Get a reference to the Firestore database
+      const db = firebase.firestore();
+      await db.collection('users').doc(userId).set({
+        email: email,
+        tiss: 'promp'
+      });
+
+    } catch (error) {
+      setError(error.message);
     }
-  }
+  };
+
 
 
   return (
@@ -58,7 +60,6 @@ export default function Register() {
       behaviour="padding"
     >
       <View style={styles.inputContainer}>
-
         <TextInput
           placeholder='Email'
           value={email}
@@ -74,16 +75,15 @@ export default function Register() {
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={handleSubmit}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
       </View>
-
-
     </KeyboardAvoidingView>
   )
+
 }
 
 const styles = StyleSheet.create({

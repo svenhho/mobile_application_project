@@ -1,6 +1,10 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth';
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyD6KdmoPLlKYgs_vW_qzsOeSvj0DYaY3XE",
   authDomain: "exerplan.firebaseapp.com",
@@ -11,9 +15,12 @@ const firebaseConfig = {
   measurementId: "G-EVFL6CFBNZ"
 };
 
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);
 
-export const authentication = getAuth(app);
+export const auth = getAuth(app);
+
+export const storage = getStorage(app);
 
 //export const provider = new GoogleAuthProvider();
 //provider.setCustomParameters({ prompt: 'select_account' });

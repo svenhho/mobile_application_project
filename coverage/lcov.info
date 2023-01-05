@@ -141,7 +141,7 @@ BRF:2
 BRH:1
 end_of_record
 TN:
-SF:screens\Navigation.js
+SF:components\Navigation.js
 FN:20,(anonymous_0)
 FN:25,(anonymous_1)
 FN:32,(anonymous_2)
