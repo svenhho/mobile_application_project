@@ -1,38 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import { TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../firebase-config';
 
 export default function Login({ navigation }) {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    // const [email, setEmail] = useState('')
+    // const [password, setPassword] = useState('')
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+    if (auth.currentUser) {
+        navigation.navigate("main");
+    } else {
+        onAuthStateChanged(auth, (user) => {
             if (user) {
-                navigation.replace('main')
+                navigation.navigate("main");
             }
-        })
-        return unsubscribe
-    }, [])
+        });
+    }
+    // useEffect(() => {
+    //     const unsubscribe = auth.onAuthStateChanged(user => {
+    //         if (user) {
+    //             navigation.replace('main')
+    //         }
+    //     })
+    //     return unsubscribe
+    // }, [])
 
+
+    const [errorMessage, setErrorMessage] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
 
     // log in
     const loginUser = () => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log('Logged in with: ' + user.email);
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-                // ..
-            });
+        if (email !== "" && password !== "") {
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    navigation.navigate("main", { user: userCredential.user });
+                    setErrorMessage("");
+                    setEmail("");
+                    setPassword("");
+                })
+                .catch((error) => {
+                    setErrorMessage(error.message)
+                });
+        } else {
+            setErrorMessage("Please enter an email and password");
+            console.log('Please enter an email and password');
+
+        }
     }
 
     // sign out
@@ -53,6 +69,7 @@ export default function Login({ navigation }) {
         >
             <Text style={styles.buttonText}>Login</Text>
             <Text style={styles.buttonText}>Please sign in to continue.</Text>
+            <Text style={styles.buttonText}>{errorMessage}</Text>
 
             <View style={styles.inputContainer}>
 
@@ -83,7 +100,7 @@ export default function Login({ navigation }) {
                         navigation.replace('Register')
                     }
                 >
-                    <Text style={styles.signUpButtonText}>Sign up</Text>
+                    <Text style={styles.signUpButtonText}>Don't have an account?</Text>
                 </TouchableOpacity>
             </View>
 

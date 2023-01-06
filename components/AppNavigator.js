@@ -17,8 +17,8 @@ export default function AppNavigator() {
 
   return (
     <Stack.Navigator initialRouteName='Login'>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-      <Stack.Screen name="main" component={Navigation} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="main" component={Navigation} />
       <Stack.Screen name="Settings" component={Settings} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="GroupPage" component={GroupPage} />
