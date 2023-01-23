@@ -27,23 +27,40 @@ export default function Login({ navigation }) {
     // }, [])
 
 
+    const [errorMessage, setErrorMessage] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
     // log in
     const loginUser = () => {
-        signInWithEmailAndPassword(authentication, email, password)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log('Logged in with: ' + user.email);
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-                // ..
-            });
+        if (email !== "" && password !== "") {
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    navigation.navigate("main", { user: userCredential.user });
+                    setErrorMessage("");
+                    setEmail("");
+                    setPassword("");
+                })
+                .catch((error) => {
+                    setErrorMessage(error.message)
+                });
+        } else {
+            setErrorMessage("Please enter an email and password");
+            console.log('Please enter an email and password');
+
+        }
     }
 
+    // sign out
+    const signOutUser = () => {
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            console.log("signout")
+        }).catch((error) => {
+            // An error happened.
+            console.log(error)
+        });
+    }
 
     return (
         <KeyboardAvoidingView
