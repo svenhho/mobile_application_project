@@ -130,6 +130,16 @@ BRF:2
 BRH:1
 end_of_record
 TN:
+<<<<<<< HEAD
+SF:components\Navigation.js
+FN:20,(anonymous_0)
+FN:25,(anonymous_1)
+FN:32,(anonymous_2)
+FN:51,(anonymous_3)
+FN:53,(anonymous_4)
+FN:63,(anonymous_5)
+FN:65,(anonymous_6)
+=======
 SF:screens\Navigation.js
 FN:19,(anonymous_0)
 FN:24,(anonymous_1)
@@ -138,6 +148,7 @@ FN:50,(anonymous_3)
 FN:52,(anonymous_4)
 FN:62,(anonymous_5)
 FN:64,(anonymous_6)
+>>>>>>> b79237077cd2cad4a621dea2c4d2ae53221db5d0
 FNF:7
 FNH:0
 FNDA:0,(anonymous_0)

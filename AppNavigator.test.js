@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import AppNavigator from './AppNavigator';
-
+import AppNavigator from './components/AppNavigator';
 // code and inspiration: https://callstack.github.io/react-native-testing-library/docs/react-navigation/
 
 // Silence the warning https://github.com/facebook/react-native/issues/11094#issuecomment-263240420
@@ -29,5 +28,22 @@ describe('Testing react navigation', () => {
     expect(registrationText).toBeTruthy();
 
   });
-
+  /** 
+    test('clicking on one item takes you to the new screen', async () => {
+      const component = (
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      );
+  
+      render(component);
+      const toClick = await screen.findByText('Log in');
+  
+      fireEvent(toClick, 'press');
+      const newHeader = await screen.findByText('ExerPlan');
+      const newBody = await screen.findByText('Settings');
+  
+      expect(newHeader).toBeTruthy();
+      expect(newBody).toBeTruthy();
+    });*/
 });

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Text } from 'react-native'
 
-export default function Calendar() {
+export default function GroupPage() {
     return (
-        <Text>Calendar</Text>
+        <Text>Workout planning</Text>
     )
 }
