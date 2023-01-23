@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { Button, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { addDoc, collection } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function GroupPage() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
+    const [groupMember, setGroupMember] = useState('');
+    const [groupMembers, setGroupMembers] = useState([]);
 
 
     const handleCreateGroup = async () => {
@@ -14,13 +17,34 @@ export default function GroupPage() {
             // Create the group in the "groups" collection
             await addDoc(collection(db, 'groups'), {
                 name: groupName,
-                description: groupDescription
+                description: groupDescription,
+                members: groupMembers
             });
             setIsModalVisible(false);
         } catch (error) {
             console.error(error);
         }
     };
+
+    const handleRemove = (index) => {
+        setGroupMembers((prev) => {
+            prev.splice(index, 1);
+            return [...prev];
+        });
+    };
+
+    function GroupMember({ member, onRemove }) {
+        return (
+            <View style={styles.groupMemberContainer}>
+                <Text style={styles.groupMemberText}>{member}</Text>
+                <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
+                    <Ionicons name="ios-close" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+
     return (
         <View style={styles.container}>
             <Button
@@ -51,6 +75,29 @@ export default function GroupPage() {
                         onChangeText={setGroupDescription}
                         autoCapitalize="none"
                     />
+                    <View>
+                        <TextInput
+                            style={styles.modalInput}
+                            placeholder="Add member"
+                            value={groupMembers}
+                            onChangeText={setGroupMember}
+                            autoCapitalize="none"
+                        />
+                        <TouchableOpacity
+                            style={styles.addButton}
+                            onPress={() => {
+                                setGroupMembers([...groupMembers, groupMember]);
+                                setGroupMember('');
+                            }}
+                        >
+                            <Text style={styles.addButtonText}>Add</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View>
+                        {groupMembers.map((member, index) => (
+                            <GroupMember member={member} onRemove={() => handleRemove(index)} />
+                        ))}
+                    </View>
                     <View style={styles.modalButtonsContainer}>
                         <TouchableOpacity
                             style={styles.modalCancelButton}
@@ -70,6 +117,7 @@ export default function GroupPage() {
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -91,7 +139,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: '#FF5B5B',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
         // padding: 16,
@@ -115,24 +163,90 @@ const styles = StyleSheet.create({
         height: 48,
         borderWidth: 1,
         borderColor: '#ff5b5b',
-        borderRadius: 24,
-        paddingLeft: 16,
+        backgroundColor: '#fff',
         marginVertical: 8,
-        color: '#ff5b5b',
+        padding: 8,
+        borderRadius: 24,
     },
-    registerButton: {
+    modalButtonsContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
+        padding: 4,
+        backgroundColor: '#ff5b5b',
+    },
+    modalCancelButton: {
+        width: '40%',
+        backgroundColor: '#ff5b5b',
+        padding: 12,
+        borderRadius: 24,
+        alignItems: 'center',
+    },
+    modalCancelButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    modalCreateButton: {
+        width: '40%',
+        backgroundColor: '#fff',
+        padding: 12,
+        borderRadius: 24,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#ff5b5b',
+    },
+    modalCreateButtonText: {
+        color: '#ff5b5b',
+        fontWeight: 'bold',
+    },
+    addMemberContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
+    },
+    addMemberInput: {
         width: '80%',
+        height: 48,
+        borderWidth: 1,
+        borderColor: '#ff5b5b',
+        backgroundColor: '#fff',
+        marginVertical: 8,
+        padding: 8,
+        borderRadius: 24,
+    },
+    addMemberButton: {
+        width: '20%',
         height: 48,
         backgroundColor: '#ff5b5b',
         borderRadius: 24,
-        marginVertical: 16,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    registerButtonText: {
+    addMemberButtonText: {
         color: '#fff',
         fontWeight: 'bold',
-        fontSize: 16,
+    },
+    groupMemberContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
+        marginVertical: 8,
+    },
+    groupMemberInput: {
+        width: '80%',
+        height: 48,
+        borderWidth: 1,
+        borderColor: '#ff5b5b',
+        backgroundColor: '#fff',
+        padding: 8,
+        borderRadius: 24,
+    },
+    removeButton: {
+        width: '20%',
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'center',
+
     },
     cancelButton: {
         width: '80%',
