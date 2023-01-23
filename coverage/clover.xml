@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1672411761155" clover="3.2.0">
-  <project timestamp="1672411761155" name="All files">
-    <metrics statements="91" coveredstatements="24" conditionals="16" coveredconditionals="1" methods="45" coveredmethods="5" elements="152" coveredelements="30" complexity="0" loc="91" ncloc="91" packages="4" files="16" classes="16"/>
+<coverage generated="1672755068303" clover="3.2.0">
+  <project timestamp="1672755068303" name="All files">
+    <metrics statements="84" coveredstatements="32" conditionals="16" coveredconditionals="1" methods="37" coveredmethods="7" elements="137" coveredelements="40" complexity="0" loc="84" ncloc="84" packages="4" files="12" classes="12"/>
     <package name="mobile_application_project">
       <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="App.js" path="C:\Users\svenh\italy_code\mobile_application_project\App.js">
@@ -10,14 +10,14 @@
       </file>
       <file name="AppNavigator.js" path="C:\Users\svenh\italy_code\mobile_application_project\components\AppNavigator">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
       </file>
       <file name="firebase.js" path="C:\Users\svenh\italy_code\mobile_application_project\firebase.js">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
       </file>
     </package>
     <package name="mobile_application_project.components">
@@ -29,99 +29,88 @@
       </file>
     </package>
     <package name="mobile_application_project.screens">
-      <metrics statements="83" coveredstatements="18" conditionals="16" coveredconditionals="1" methods="42" coveredmethods="3"/>
+      <metrics statements="76" coveredstatements="26" conditionals="16" coveredconditionals="1" methods="34" coveredmethods="5"/>
       <file name="Calendar.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\Calendar.js">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
       </file>
       <file name="Homepage.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\Homepage.js">
-        <metrics statements="5" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="35" count="2" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
       </file>
       <file name="Login.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\Login.js">
-        <metrics statements="23" coveredstatements="10" conditionals="2" coveredconditionals="1" methods="12" coveredmethods="3"/>
-        <line num="8" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
-        <line num="12" count="3" type="stmt"/>
-        <line num="13" count="3" type="cond" truecount="1" falsecount="1"/>
+        <metrics statements="23" coveredstatements="11" conditionals="2" coveredconditionals="1" methods="11" coveredmethods="4"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="cond" truecount="1" falsecount="1"/>
         <line num="14" count="0" type="stmt"/>
-        <line num="17" count="3" type="stmt"/>
-        <line num="22" count="3" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="20" count="4" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
-        <line num="39" count="3" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="49" count="3" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="95" count="2" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="50" count="4" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="68" count="0" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
+        <line num="96" count="3" type="stmt"/>
       </file>
       <file name="Navigation.js" path="C:\Users\svenh\italy_code\mobile_application_project\components\Navigation.js">
         <metrics statements="19" coveredstatements="5" conditionals="12" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="16" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="20" count="2" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="36" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="37" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="38" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="39" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="40" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="41" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="66" count="0" type="stmt"/>
-      </file>
-      <file name="PersonalRecords.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\PersonalRecords.js">
-        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
-      </file>
-      <file name="PlanWorkout.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\PlanWorkout.js">
-        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="51" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
       </file>
       <file name="Register.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\Register.js">
-        <metrics statements="22" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="0"/>
-        <line num="12" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
+        <metrics statements="22" coveredstatements="8" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="1"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="36" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
         <line num="70" count="0" type="stmt"/>
-        <line num="89" count="2" type="stmt"/>
+        <line num="90" count="4" type="stmt"/>
       </file>
       <file name="Settings.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\Settings.js">
         <metrics statements="8" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
@@ -132,17 +121,9 @@
         <line num="16" count="0" type="stmt"/>
         <line num="19" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
-        <line num="36" count="2" type="stmt"/>
-      </file>
-      <file name="SpinningWheel.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\SpinningWheel.js">
-        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
       </file>
       <file name="User.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\User.js">
-        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
-      </file>
-      <file name="Workout.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\Workout.js">
         <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="5" count="0" type="stmt"/>
       </file>
