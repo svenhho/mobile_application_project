@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Text, TextInput, Button, View, StyleSheet } from 'react-native'
+import { Text, TextInput, TouchableOpacity, Button, View, StyleSheet } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { addDoc, collection } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-export default Register = () => {
+
+export default function Register({ navigation }) {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -93,10 +94,17 @@ export default Register = () => {
         secureTextEntry
       />
       <Button
-        buttonStyle={styles.registerButton}
+        buttonStyle={styles.signUpButton}
         title="Sign up"
         onPress={handleSubmit}
       />
+      <TouchableOpacity style={styles.signUp}
+        onPress={() =>
+          navigation.replace('Login')
+        }
+      >
+        <Text style={styles.signInText}>Already have an account? Log in</Text>
+      </TouchableOpacity>
     </View>
   )
 
@@ -126,17 +134,17 @@ const styles = StyleSheet.create({
     color: '#ff5b5b',
   },
 
-  registerButton: {
+  signUpButton: {
     width: '80%',
     height: 48,
     backgroundColor: '#ff5b5b',
     borderRadius: 24,
     marginVertical: 16,
   },
-  // signUp: {
-  //     alignSelf: 'center',
-  // },
-  // signUpText: {
-  //     color: '#ff5b5b',
-  // },
+  signIn: {
+    alignSelf: 'center',
+  },
+  signInText: {
+    color: '#ff5b5b',
+  },
 });
