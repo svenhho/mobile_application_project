@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, Button, View, StyleSheet } from 'react-native'
+import { Text, TextInput, Button, View, StyleSheet } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { addDoc, collection } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
@@ -45,7 +45,8 @@ export default Register = () => {
   };
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign up</Text>
       <TextInput
         placeholder="Email"
         value={email}
@@ -68,6 +69,7 @@ export default Register = () => {
         placeholder="Gender"
         setSelected={(val) => setGender(val)}
         data={genderOptions}
+        style={styles.input}
         save="value"
       />
       <TextInput
@@ -90,7 +92,11 @@ export default Register = () => {
         style={styles.input}
         secureTextEntry
       />
-      <Button style={styles.buttonContainer} title="Sign Up" onPress={handleSubmit} />
+      <Button
+        buttonStyle={styles.registerButton}
+        title="Sign up"
+        onPress={handleSubmit}
+      />
     </View>
   )
 
@@ -99,56 +105,38 @@ export default Register = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#fff',
     alignItems: 'center',
-    backgroundColor: '#191414',
+    justifyContent: 'center',
   },
-  inputContainer: {
-    width: '80%',
+  title: {
+    fontSize: 32,
+    marginBottom: 48,
+    color: '#ff5b5b',
+    fontWeight: 'bold',
   },
   input: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
+    width: '80%',
+    height: 48,
+    borderWidth: 1,
+    borderColor: '#ff5b5b',
+    borderRadius: 24,
+    paddingLeft: 16,
+    marginVertical: 8,
+    color: '#ff5b5b',
   },
-  buttonContainer: {
-    width: '60%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
+
+  registerButton: {
+    width: '80%',
+    height: 48,
+    backgroundColor: '#ff5b5b',
+    borderRadius: 24,
+    marginVertical: 16,
   },
-  button: {
-    backgroundColor: '#1db954',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#1db954',
-    borderWidth: 2,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  buttonOutlineText: {
-    color: '#1db954',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  signUpButton: {
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-  signUpButtonText: {
-    color: 'blue',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-  },
-})
+  // signUp: {
+  //     alignSelf: 'center',
+  // },
+  // signUpText: {
+  //     color: '#ff5b5b',
+  // },
+});
