@@ -26,6 +26,7 @@ export default function GroupPage() {
         }
     };
 
+
     const handleRemove = (index) => {
         setGroupMembers((prev) => {
             prev.splice(index, 1);
@@ -43,6 +44,7 @@ export default function GroupPage() {
             </View>
         );
     }
+
 
 
     return (
@@ -79,7 +81,7 @@ export default function GroupPage() {
                         <TextInput
                             style={styles.modalInput}
                             placeholder="Add member"
-                            value={groupMembers}
+                            value={groupMember}
                             onChangeText={setGroupMember}
                             autoCapitalize="none"
                         />
