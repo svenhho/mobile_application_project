@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { addDoc, collection } from '@firebase/firestore';
-import { auth, db } from '../../firebase-config';
+import { db } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function GroupPage() {
@@ -15,12 +14,14 @@ export default function GroupPage() {
     const handleCreateGroup = async () => {
         try {
             // Create the group in the "groups" collection
-            await addDoc(collection(db, 'groups'), {
-                name: groupName,
-                description: groupDescription,
-                members: groupMembers
-            });
-            setIsModalVisible(false);
+            db.collection('Groups')
+                .add({
+                    name: groupName,
+                    description: groupDescription,
+                    members: groupMembers
+                }).then(() => {
+                    console.log('User added!');
+                });
         } catch (error) {
             console.error(error);
         }

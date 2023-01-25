@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase-config';
-import { signOut } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
 
 export default function Settings() {
@@ -10,14 +9,16 @@ export default function Settings() {
 
 
     const signOutUser = () => {
-        signOut(auth).then(() => {
-            // Sign-out successful.
-            console.log("signout")
+        try {
+            auth()
+                .signOut()
+                .then(() => console.log('User signed out!'));
             navigation.replace('Login')
-        }).catch((error) => {
+
+        } catch (error) {
             // An error happened.
             console.log(error)
-        });
+        }
     }
 
     return (

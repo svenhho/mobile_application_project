@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, Button, View, StyleSheet } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
-import { addDoc, collection } from '@firebase/firestore';
-import { auth, db } from '../../firebase-config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-
+import { auth, db } from '../../firebase-config'
 
 export default function Register({ navigation }) {
   const [email, setEmail] = useState('');
@@ -15,7 +12,7 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [selected, setSelected] = React.useState("");
+  // const [selected, setSelected] = React.useState("");
 
   const genderOptions = [
     { key: '1', value: 'Female' },
@@ -24,26 +21,39 @@ export default function Register({ navigation }) {
   ]
 
 
-
   const handleSubmit = async () => {
-
     try {
       // Create the user with email and password
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+      console.log('User account created & signed in!');
 
       // Add a new document to the "users" collection with the user's `uid` as the document ID
-      await addDoc(collection(db, 'users'), {
-        email: email,
-        firstname: firstName,
-        lastname: lastName,
-        gender: gender,
-        age: age,
-        userid: user.uid
-      }, user.uid);
+      db.collection('Users')
+        .add({
+          email: email,
+          firstname: firstName,
+          lastname: lastName,
+          gender: gender,
+          age: age,
+          userid: user.uid
+        })
+        .then(() => {
+          console.log('User added!');
+        });
+
     } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!');
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        console.log('That email address is invalid!');
+      }
+
       console.error(error);
     }
   };
+
 
   return (
     <View style={styles.container}>

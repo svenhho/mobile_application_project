@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { TextInput, View, TouchableOpacity, Text, StyleSheet, KeyboardAvoidingView, Button } from 'react-native'
 import { auth } from '../firebase-config';
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 
 export default function Login({ navigation }) {
@@ -24,8 +23,10 @@ export default function Login({ navigation }) {
     // log in
     const loginUser = () => {
         if (email !== "" && password !== "") {
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+            auth()
+                .signInAnonymously()
+                .then(() => {
+                    console.log('User signed in anonymously');
                     navigation.navigate("main", { user: userCredential.user });
                     setErrorMessage("");
                     setEmail("");
