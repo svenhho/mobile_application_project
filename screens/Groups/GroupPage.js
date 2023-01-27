@@ -1,30 +1,62 @@
 import React, { useState } from 'react';
 import { Button, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { addDoc, collection } from '@firebase/firestore';
-import { auth, db } from '../../firebase-config';
+import { setDoc, collection, getDocs, doc } from 'firebase/firestore';
+import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function GroupPage() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
-    const [groupMember, setGroupMember] = useState('');
+    const [groupMemberEmail, setGroupMemberEmail] = useState('');
     const [groupMembers, setGroupMembers] = useState([]);
 
+    const userColRef = collection(db, 'users');
+
+
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+        setGroupName('');
+        setGroupDescription('');
+        setGroupMemberEmail('');
+        setGroupMembers([]);
+    }
 
     const handleCreateGroup = async () => {
         try {
+
+            const groupDocRef = doc(db, "groups", groupName);
             // Create the group in the "groups" collection
-            await addDoc(collection(db, 'groups'), {
+            await setDoc(groupDocRef, {
                 name: groupName,
                 description: groupDescription,
                 members: groupMembers
             });
             setIsModalVisible(false);
+            handleCloseModal();
+            console.log(groupMembers);
         } catch (error) {
             console.error(error);
         }
     };
+
+    async function userAlreadyExists(email) {
+        try {
+            const docsSnap = await getDocs(userColRef);
+            return new Promise((resolve, reject) => {
+                docsSnap.forEach(doc => {
+                    if (doc.id == email) {
+                        resolve(true);
+                    }
+                });
+                resolve(false);
+            });
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
+
 
 
     const handleRemove = (index) => {
@@ -46,7 +78,6 @@ export default function GroupPage() {
     }
 
 
-
     return (
         <View style={styles.container}>
             <Button
@@ -59,7 +90,9 @@ export default function GroupPage() {
                 animationType="slide"
                 transparent={true}
                 visible={isModalVisible}
-                onRequestClose={() => setIsModalVisible(false)}
+                onRequestClose={() =>
+                    setIsModalVisible(false)
+                }
             >
                 <View style={styles.modalContainer}>
                     <Text style={styles.modalTitle}>Create a new group</Text>
@@ -81,15 +114,24 @@ export default function GroupPage() {
                         <TextInput
                             style={styles.modalInput}
                             placeholder="Add member"
-                            value={groupMember}
-                            onChangeText={setGroupMember}
+                            value={groupMemberEmail}
+                            onChangeText={setGroupMemberEmail}
                             autoCapitalize="none"
                         />
                         <TouchableOpacity
                             style={styles.addButton}
-                            onPress={() => {
-                                setGroupMembers([...groupMembers, groupMember]);
-                                setGroupMember('');
+                            onPress={async () => {
+                                if (groupMemberEmail == '') {
+                                    console.log('Email field is empty')
+                                } else if (groupMemberEmail == auth.currentUser?.email) {
+                                    console.log('The email cannot be yours');
+                                } else if (groupMemberEmail.trim() !== '' && await userAlreadyExists(groupMemberEmail)) {
+                                    setGroupMembers([...groupMembers, groupMemberEmail]);
+                                    setGroupMemberEmail('')
+                                    console.log(groupMembers)
+                                } else {
+                                    console.log('User does not exist')
+                                }
                             }}
                         >
                             <Text style={styles.addButtonText}>Add</Text>
@@ -103,13 +145,21 @@ export default function GroupPage() {
                     <View style={styles.modalButtonsContainer}>
                         <TouchableOpacity
                             style={styles.modalCancelButton}
-                            onPress={() => setIsModalVisible(false)}
+                            onPress={() => handleCloseModal()}
                         >
                             <Text style={styles.modalCancelButtonText}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.modalCreateButton}
-                            onPress={handleCreateGroup}
+                            onPress={async () => {
+                                if (groupName !== ''
+                                    && groupDescription !== ''
+                                    && groupMembers !== []) {
+                                    handleCreateGroup();
+                                } else {
+                                    console.log('All fields must be ...')
+                                }
+                            }}
                         >
                             <Text style={styles.modalCreateButtonText}>Create</Text>
                         </TouchableOpacity>

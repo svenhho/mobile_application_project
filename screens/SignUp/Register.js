@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, Button, View, StyleSheet } from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
-import { addDoc, collection } from '@firebase/firestore';
+import { doc, addDoc, collection, setDoc } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+
 
 
 export default function Register({ navigation }) {
@@ -30,16 +31,17 @@ export default function Register({ navigation }) {
     try {
       // Create the user with email and password
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      const userDocRef = doc(db, "users", email);
 
       // Add a new document to the "users" collection with the user's `uid` as the document ID
-      await addDoc(collection(db, 'users'), {
+      await setDoc(userDocRef, {
         email: email,
         firstname: firstName,
         lastname: lastName,
         gender: gender,
         age: age,
         userid: user.uid
-      }, user.uid);
+      });
     } catch (error) {
       console.error(error);
     }
