@@ -20,6 +20,7 @@ const Navigation = ({ navigation }) => {
         <Tab.Navigator
             initialRouteName={groupUpName}
             padding={48}
+            options={{ headerShown: false }}
             screenOptions={({ route }) => ({
                 padding: 200,
                 activeTintColor: '#1db954s',
