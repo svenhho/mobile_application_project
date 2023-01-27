@@ -4,8 +4,7 @@ import { setDoc, collection, getDocs, doc } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function GroupPage() {
-    const [isModalVisible, setIsModalVisible] = useState(false);
+export default function NewGroup() {
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
     const [groupMemberEmail, setGroupMemberEmail] = useState('');
@@ -77,98 +76,89 @@ export default function GroupPage() {
         );
     }
 
-
     return (
-        <View style={styles.container}>
-            <Button
-                buttonStyle={styles.createGroupButton}
-                title="Create group"
-                onPress={() => setIsModalVisible(true)}
-            />
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() =>
-                    setIsModalVisible(false)
-                }
-            >
-                <View style={styles.modalContainer}>
-                    <Text style={styles.modalTitle}>Create a new group</Text>
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isModalVisible}
+            onRequestClose={() =>
+                setIsModalVisible(false)
+            }
+        >
+            <View style={styles.modalContainer}>
+                <Text style={styles.modalTitle}>Create a new group</Text>
+                <TextInput
+                    style={styles.modalInput}
+                    placeholder="Group name"
+                    value={groupName}
+                    onChangeText={setGroupName}
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    style={styles.modalInput}
+                    placeholder="Group description"
+                    value={groupDescription}
+                    onChangeText={setGroupDescription}
+                    autoCapitalize="none"
+                />
+                <View>
                     <TextInput
                         style={styles.modalInput}
-                        placeholder="Group name"
-                        value={groupName}
-                        onChangeText={setGroupName}
+                        placeholder="Add member"
+                        value={groupMemberEmail}
+                        onChangeText={setGroupMemberEmail}
                         autoCapitalize="none"
                     />
-                    <TextInput
-                        style={styles.modalInput}
-                        placeholder="Group description"
-                        value={groupDescription}
-                        onChangeText={setGroupDescription}
-                        autoCapitalize="none"
-                    />
-                    <View>
-                        <TextInput
-                            style={styles.modalInput}
-                            placeholder="Add member"
-                            value={groupMemberEmail}
-                            onChangeText={setGroupMemberEmail}
-                            autoCapitalize="none"
-                        />
-                        <TouchableOpacity
-                            style={styles.addButton}
-                            onPress={async () => {
-                                if (groupMemberEmail == '') {
-                                    console.log('Email field is empty')
-                                } else if (groupMemberEmail == auth.currentUser?.email) {
-                                    console.log('The email cannot be yours');
-                                } else if (groupMemberEmail.trim() !== '' && await userAlreadyExists(groupMemberEmail)) {
-                                    setGroupMembers([...groupMembers, groupMemberEmail]);
-                                    setGroupMemberEmail('')
-                                    console.log(groupMembers)
-                                } else {
-                                    console.log('User does not exist')
-                                }
-                            }}
-                        >
-                            <Text style={styles.addButtonText}>Add</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        {groupMembers.map((member, index) => (
-                            <GroupMember member={member} onRemove={() => handleRemove(index)} />
-                        ))}
-                    </View>
-                    <View style={styles.modalButtonsContainer}>
-                        <TouchableOpacity
-                            style={styles.modalCancelButton}
-                            onPress={() => handleCloseModal()}
-                        >
-                            <Text style={styles.modalCancelButtonText}>Cancel</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.modalCreateButton}
-                            onPress={async () => {
-                                if (groupName !== ''
-                                    && groupDescription !== ''
-                                    && groupMembers !== []) {
-                                    handleCreateGroup();
-                                } else {
-                                    console.log('All fields must be ...')
-                                }
-                            }}
-                        >
-                            <Text style={styles.modalCreateButtonText}>Create</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                        style={styles.addButton}
+                        onPress={async () => {
+                            if (groupMemberEmail == '') {
+                                console.log('Email field is empty')
+                            } else if (groupMemberEmail == auth.currentUser?.email) {
+                                console.log('The email cannot be yours');
+                            } else if (groupMemberEmail.trim() !== '' && await userAlreadyExists(groupMemberEmail)) {
+                                setGroupMembers([...groupMembers, groupMemberEmail]);
+                                setGroupMemberEmail('')
+                                console.log(groupMembers)
+                            } else {
+                                console.log('User does not exist')
+                            }
+                        }}
+                    >
+                        <Text style={styles.addButtonText}>Add</Text>
+                    </TouchableOpacity>
                 </View>
-            </Modal>
-        </View>
-    );
+                <View>
+                    {groupMembers.map((member, index) => (
+                        <GroupMember member={member} onRemove={() => handleRemove(index)} />
+                    ))}
+                </View>
+                <View style={styles.modalButtonsContainer}>
+                    <TouchableOpacity
+                        style={styles.modalCancelButton}
+                        onPress={() => handleCloseModal()}
+                    >
+                        <Text style={styles.modalCancelButtonText}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.modalCreateButton}
+                        onPress={async () => {
+                            if (groupName !== ''
+                                && groupDescription !== ''
+                                && groupMembers !== []) {
+                                handleCreateGroup();
+                            } else {
+                                console.log('All fields must be ...')
+                            }
+                        }}
+                    >
+                        <Text style={styles.modalCreateButtonText}>Create</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </Modal>
+    )
 }
-
 
 const styles = StyleSheet.create({
     container: {
