@@ -1,9 +1,10 @@
 /**
  * Colors used (in hex):
- * 1db954 - main geen
- * 16873d - darker green
- * 093b1b - darkest green
+ * ffffff - white
+ * ff5b5b - red
+ * FFA8A8 - light red
+ * 802E2E - dark red
+ * f5a623 - yellow
  * 
- * 191414 - black
  * 
  */
