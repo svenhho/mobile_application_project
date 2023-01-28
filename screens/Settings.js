@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase-config';
 import { signOut } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
+import MapComponent from '../components/MapComponent';
 
 export default function Settings() {
 
@@ -29,6 +30,7 @@ export default function Settings() {
             >
                 <Text style={styles.buttonText}>Log out</Text>
             </TouchableOpacity>
+            <MapComponent></MapComponent>
         </View>
     )
 }
