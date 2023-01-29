@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { Button, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { setDoc, collection, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as ImagePicker from 'expo-image-picker';
+
+
 
 export default function GroupPage() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
+    const [image, setImage] = useState('');
     const [groupMemberEmail, setGroupMemberEmail] = useState('');
     const [groupMembers, setGroupMembers] = useState([]);
 
@@ -30,14 +34,20 @@ export default function GroupPage() {
             await setDoc(groupDocRef, {
                 name: groupName,
                 description: groupDescription,
+                image: image,
                 members: groupMembers
             });
+            const docSnap = await getDoc(groupDocRef);
+            const data = docSnap.data();
+            console.log(data);
 
             // Add groupid to the user's document
             groupMembers.forEach(async (member) => {
-                const userDocRef = getDoc(member);
+                const userDocRef = doc(db, "users", member);
                 await updateDoc(userDocRef, { groupid: groupDocRef.id });
+                console.log("A New Document Field has been added to " + member);
             });
+
 
             setIsModalVisible(false);
             handleCloseModal();
@@ -46,6 +56,23 @@ export default function GroupPage() {
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+        console.log(image);
     };
 
     async function userAlreadyExists(email) {
@@ -85,6 +112,8 @@ export default function GroupPage() {
     }
 
 
+
+
     return (
         <View style={styles.container}>
             <Button
@@ -116,6 +145,10 @@ export default function GroupPage() {
                         onChangeText={setGroupDescription}
                         autoCapitalize="none"
                     />
+                    <View style={styles.modalInput}>
+                        <Button title="Pick an image from camera roll" onPress={pickImage} />
+                        {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
+                    </View>
                     <View>
                         <TextInput
                             style={styles.modalInput}
@@ -319,5 +352,18 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    imageContainer: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginTop: 20,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84
     },
 });
