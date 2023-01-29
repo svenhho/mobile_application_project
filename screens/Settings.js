@@ -22,7 +22,7 @@ export default function Settings() {
 
     return (
         <View styles={styles.container}>
-            <Text>Email: {auth.currentUser?.email}</Text>
+            <Text style={styles.emailText}>Email: {auth.currentUser?.email}</Text>
             <TouchableOpacity
                 onPress={signOutUser}
                 style={styles.button}
@@ -40,8 +40,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#191414',
     },
+    emailText: {
+        color: 'white',
+        fontSize: 18,
+        marginBottom: 20
+    },
     button: {
-        backgroundColor: '#1db954',
+        backgroundColor: '#ff5a5f',
         width: '60%',
         padding: 15,
         borderRadius: 10,
@@ -54,7 +59,3 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 })
-
-
-
-

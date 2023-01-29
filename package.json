@@ -58,7 +58,8 @@
     "react-native-web": "~0.18.9",
     "react-redux": "^8.0.5",
     "react-test-renderer": "^18.1.0",
-    "reactjs-popup": "^2.0.5"
+    "reactjs-popup": "^2.0.5",
+    "expo-image-picker": "~14.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

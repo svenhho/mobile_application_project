@@ -21,6 +21,10 @@ const User = ({ navigation }) => {
                 <Text style={styles.userName}>John Doe</Text>
                 <Text style={styles.userBio}>I'm a software developer and love to travel. Swipe right if you're up for an adventure!</Text>
             </View>
+            <View style={styles.userContainer}>
+                <Text style={styles.userName}>Your group</Text>
+                <Text style={styles.userBio}>I'm a software developer and love to travel. Swipe right if you're up for an adventure!</Text>
+            </View>
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerButton}

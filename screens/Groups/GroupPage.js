@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { setDoc, collection, getDocs, doc } from 'firebase/firestore';
+import { setDoc, collection, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -24,17 +24,25 @@ export default function GroupPage() {
 
     const handleCreateGroup = async () => {
         try {
-
             const groupDocRef = doc(db, "groups", groupName);
+
             // Create the group in the "groups" collection
             await setDoc(groupDocRef, {
                 name: groupName,
                 description: groupDescription,
                 members: groupMembers
             });
+
+            // Add groupid to the user's document
+            groupMembers.forEach(async (member) => {
+                const userDocRef = getDoc(member);
+                await updateDoc(userDocRef, { groupid: groupDocRef.id });
+            });
+
             setIsModalVisible(false);
             handleCloseModal();
             console.log(groupMembers);
+
         } catch (error) {
             console.error(error);
         }
@@ -56,7 +64,6 @@ export default function GroupPage() {
             return false;
         }
     }
-
 
 
     const handleRemove = (index) => {
