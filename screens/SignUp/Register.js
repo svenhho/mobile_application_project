@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Text, Image, TextInput, TouchableOpacity, Button, View, StyleSheet } from 'react-native'
+import {
+  Text, Image, TextInput, TouchableOpacity, Button, View, StyleSheet, SafeAreaView,
+  ScrollView
+} from 'react-native'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { doc, setDoc } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
@@ -15,7 +18,7 @@ export default function Register({ navigation }) {
   const [gender, setGender] = useState('');
   const [age, setAge] = useState('');
   const [image, setImage] = useState('');
-  const groupid = [];
+  const groupid = '';
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [selected, setSelected] = React.useState("");
@@ -43,18 +46,7 @@ export default function Register({ navigation }) {
     console.log(image);
   };
 
-  const signOutUser = () => {
-    signOut(auth).then(() => {
-      // Sign-out successful.
-      console.log("signout")
-      navigation.replace('Login')
-    }).catch((error) => {
-      // An error happened.
-      console.log(error)
-    });
-  }
   const handleSubmit = async () => {
-    signOutUser();
     try {
       // Create the user with email and password
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -72,6 +64,8 @@ export default function Register({ navigation }) {
         userid: user.uid,
         groupid: groupid
       });
+
+      navigation.replace('Login');
 
     } catch (error) {
       console.error(error);
@@ -143,6 +137,7 @@ export default function Register({ navigation }) {
         <Text style={styles.signInText}>Already have an account? Log in</Text>
       </TouchableOpacity>
     </View>
+
   )
 
 }
@@ -154,6 +149,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   title: {
     fontSize: 32,
     marginBottom: 48,

@@ -6,7 +6,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 
 
-
 export default function GroupPage() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [groupName, setGroupName] = useState('');
@@ -14,6 +13,7 @@ export default function GroupPage() {
     const [image, setImage] = useState('');
     const [groupMemberEmail, setGroupMemberEmail] = useState('');
     const [groupMembers, setGroupMembers] = useState([]);
+    const likes = [];
 
     const userColRef = collection(db, 'users');
 
@@ -27,6 +27,9 @@ export default function GroupPage() {
     }
 
     const handleCreateGroup = async () => {
+
+        // add current user to the group as well
+        setGroupMembers([...groupMembers, auth.currentUser?.email]);
         try {
             const groupDocRef = doc(db, "groups", groupName);
 
@@ -35,7 +38,8 @@ export default function GroupPage() {
                 name: groupName,
                 description: groupDescription,
                 image: image,
-                members: groupMembers
+                members: groupMembers,
+                likes: likes
             });
             const docSnap = await getDoc(groupDocRef);
             const data = docSnap.data();
@@ -70,6 +74,8 @@ export default function GroupPage() {
         console.log(result);
 
         if (!result.canceled) {
+            console.log(result.assets[0].uri);
+
             setImage(result.assets[0].uri);
         }
         console.log(image);

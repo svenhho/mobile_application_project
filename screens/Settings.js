@@ -31,6 +31,8 @@ export default function Settings() {
             >
                 <Text style={styles.buttonText}>Log out</Text>
             </TouchableOpacity>
+            <MapComponent ></MapComponent>
+
         </View>
     )
 }

@@ -2,72 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { auth, db } from '../firebase-config';
 import { setDoc, collection, getDocs, doc, getDoc, updateDoc, query, where } from 'firebase/firestore';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FetchUserData from '../components/FetchUserData';
+// import FetchGroupData from '../components/FetchGroupData';
 
 const User = ({ navigation }) => {
-    const [userData, setUserData] = useState({});
-    const [groupData, setGroupData] = useState({});
+    const [userData] = FetchUserData();
+    // const [groupData] = FetchGroupData();
 
-    console.log(auth.currentUser?.email);
-
-    const getUserData = async () => {
-        try {
-            if (auth.currentUser !== null) {
-                const docRef = doc(db, "users", auth.currentUser.email);
-                const docSnap = await getDoc(docRef);
-                setUserData([]);
-                const data = docSnap.data();
-                setUserData({
-                    firstname: data.firstname,
-                    lastname: data.lastname,
-                    image: data.image,
-                    groupid: data.groupid
-                });
-            }
-        } catch (error) {
-            alert(error);
-        }
-    };
-
-    useEffect(() => {
-        getUserData();
-    }, []);
-
-    console.log(userData.firstname);
-    console.log(userData.lastname);
-    console.log(userData.image);
-    console.log(userData.groupid);
-
-
-
-    // const getGroupData = async () => {
-    //     try {
-    //         if (auth.currentUser !== null) {
-    //             if (userData.groupid !== []) {
-    //                 const docRef = doc(db, "groups", userData.groupid);
-    //                 const docSnap = await getDoc(docRef);
-    //                 setGroupData([]);
-    //                 const data = docSnap.data();
-    //                 setGroupData({
-    //                     name: data.name,
-    //                     image: data.image,
-    //                 });
-    //             } else {
-    //                 setGroupData([]);
-    //                 console.log('the user is not in a group');
-    //             }
-    //         }
-    //     } catch (error) {
-    //         alert(error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     getGroupData();
-    // }, []);
-
-    // console.log(getGroupData());
 
     return (
         <View style={styles.container}>
@@ -87,9 +29,20 @@ const User = ({ navigation }) => {
                 <Text style={styles.userName}>{userData.firstname} {userData.lastname}</Text>
                 <Text style={styles.userBio}>I'm a software developer and love to travel. Swipe right if you're up for an adventure!</Text>
             </View>
-            <View>
+            {/* <View>
                 <Text style={styles.userName}> Your group</Text>
-            </View>
+                {userData && userData.groupid ? (
+                    <View style={styles.groupContainer}>
+                        <Image
+                            style={styles.groupImage}
+                            source={{ uri: groupData.image }}
+                        />
+                        <Text style={styles.groupName}>{userData.groupid}</Text>
+                    </View>
+                ) : (
+                    <Text style={styles.userName}>User or group does not exist</Text>
+                )}
+            </View> */}
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerButton}
@@ -112,7 +65,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F5A623',
-        paddingTop: 16,
+        paddingTop: 40,
     },
     header: {
         flexDirection: 'row',
@@ -148,22 +101,20 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     groupContainer: {
-        alignItems: 'center',
-        backgroundColor: 'white',
-        padding: 10,
-        marginVertical: 10,
+        borderRadius: 10,
         borderWidth: 1,
-        borderColor: '#ddd',
+        borderColor: '#d6d7da',
+        alignItems: 'center',
+        padding: 10
     },
     groupImage: {
         width: 50,
         height: 50,
         borderRadius: 25,
-        marginBottom: 10,
+        marginBottom: 10
     },
     groupName: {
-        fontWeight: 'bold',
-        fontSize: 16,
+        fontWeight: 'bold'
     },
     footer: {
         flexDirection: 'row',
