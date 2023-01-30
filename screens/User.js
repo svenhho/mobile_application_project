@@ -4,11 +4,10 @@ import { auth, db } from '../firebase-config';
 import { setDoc, collection, getDocs, doc, getDoc, updateDoc, query, where } from 'firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FetchUserData from '../components/FetchUserData';
-// import FetchGroupData from '../components/FetchGroupData';
 
 const User = ({ navigation }) => {
     const [userData] = FetchUserData();
-    // const [groupData] = FetchGroupData();
+    console.log(userData);
 
 
     return (

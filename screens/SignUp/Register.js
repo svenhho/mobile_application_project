@@ -8,7 +8,6 @@ import { doc, setDoc } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
-import { signOut } from "firebase/auth";
 
 
 export default function Register({ navigation }) {
@@ -38,12 +37,12 @@ export default function Register({ navigation }) {
       quality: 1,
     });
 
-    console.log(result);
+    console.log('result: ' + result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
-    console.log(image);
+    console.log('registeredimage: ' + image);
   };
 
   const handleSubmit = async () => {
@@ -64,7 +63,7 @@ export default function Register({ navigation }) {
         userid: user.uid,
         groupid: groupid
       });
-
+      console.log(image);
       navigation.replace('Login');
 
     } catch (error) {
