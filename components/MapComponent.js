@@ -43,7 +43,13 @@ export default function MapComponent() {
       longitude: location.coords.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
-    })
+    });
+    setTargetPin({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
     console.log(location.coords.latitude, location.coords.longitude);
   }
 
