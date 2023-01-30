@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FitnessApp",
-    "slug": "FitnessApp",
+    "name": "GroupUp",
+    "slug": "GroupUp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
