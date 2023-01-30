@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Button, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { setDoc, collection, getDocs, doc } from 'firebase/firestore';
+import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { setDoc, collection, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as ImagePicker from 'expo-image-picker';
+
 
 export default function GroupPage() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
+    const [image, setImage] = useState('');
     const [groupMemberEmail, setGroupMemberEmail] = useState('');
     const [groupMembers, setGroupMembers] = useState([]);
+    const likes = [];
 
     const userColRef = collection(db, 'users');
 
@@ -23,21 +27,58 @@ export default function GroupPage() {
     }
 
     const handleCreateGroup = async () => {
-        try {
 
+        // add current user to the group as well
+        setGroupMembers([...groupMembers, auth.currentUser?.email]);
+        try {
             const groupDocRef = doc(db, "groups", groupName);
+
             // Create the group in the "groups" collection
             await setDoc(groupDocRef, {
                 name: groupName,
                 description: groupDescription,
-                members: groupMembers
+                image: image,
+                members: groupMembers,
+                likes: likes
             });
+            const docSnap = await getDoc(groupDocRef);
+            const data = docSnap.data();
+            console.log(data);
+
+            // Add groupid to the user's document
+            groupMembers.forEach(async (member) => {
+                const userDocRef = doc(db, "users", member);
+                await updateDoc(userDocRef, { groupid: groupDocRef.id });
+                console.log("A New Document Field has been added to " + member);
+            });
+
+
             setIsModalVisible(false);
             handleCloseModal();
             console.log(groupMembers);
+
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            console.log(result.assets[0].uri);
+
+            setImage(result.assets[0].uri);
+        }
+        console.log(image);
     };
 
     async function userAlreadyExists(email) {
@@ -56,7 +97,6 @@ export default function GroupPage() {
             return false;
         }
     }
-
 
 
     const handleRemove = (index) => {
@@ -78,6 +118,8 @@ export default function GroupPage() {
     }
 
 
+
+
     return (
         <View style={styles.container}>
             <Button
@@ -85,7 +127,6 @@ export default function GroupPage() {
                 title="Create group"
                 onPress={() => setIsModalVisible(true)}
             />
-
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -110,6 +151,10 @@ export default function GroupPage() {
                         onChangeText={setGroupDescription}
                         autoCapitalize="none"
                     />
+                    <View style={styles.modalInput}>
+                        <Button title="Pick an image from camera roll" onPress={pickImage} />
+                        {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
+                    </View>
                     <View>
                         <TextInput
                             style={styles.modalInput}
@@ -313,5 +358,18 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 16,
+    },
+    imageContainer: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginTop: 20,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84
     },
 });
