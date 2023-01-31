@@ -20,7 +20,6 @@ const Navigation = ({ navigation }) => {
         <Tab.Navigator
             initialRouteName={groupUpName}
             padding={48}
-            options={{ headerShown: false }}
             screenOptions={({ route }) => ({
                 padding: 200,
                 activeTintColor: '#1db954s',
@@ -45,18 +44,11 @@ const Navigation = ({ navigation }) => {
                 },
             })}>
 
-            <Tab.Screen name={groupPageName} component={GroupPage} />
-            <Tab.Screen name={groupUpName} component={GroupUp} />
+            <Tab.Screen name={groupPageName} component={GroupPage} options={{ headerShown: false }}
+            />
+            <Tab.Screen name={groupUpName} component={GroupUp} options={{ headerShown: false }} />
             <Tab.Screen name={userName} component={User}
-                options={{
-                    headerRight: () => (
-                        <Ionicons name={'settings'} size={25} color={'grey'}
-                            onPress={() =>
-                                navigation.navigate('Settings')
-                            } />
-                    ),
-                }} />
-
+                options={{ headerShown: false }} />
         </Tab.Navigator>
     );
 };
