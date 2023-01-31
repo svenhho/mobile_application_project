@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, Button, TouchableOpacity } from 'react-native';
-import { doc, getDoc, collection, getDocs, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs, onSnapshot, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import SwipeCards from 'react-native-swipe-cards';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 const GroupUpPage = () => {
     const [groupData, setGroupData] = useState([]);
     const [currentUserGroup, setCurrentUserGroup] = useState('');
+    const filteredGroups = groupData.filter(group => !group.swiped || !group.swiped.includes(currentUserGroup));
+
 
 
     const getGroupData = () => {
@@ -27,9 +31,6 @@ const GroupUpPage = () => {
                 setCurrentUserGroup(snapshot.data().groupid);
             });
 
-            console.log('currentUserGroup: ' + currentUserGroup);
-
-
 
         } catch (error) {
             console.error(error);
@@ -46,9 +47,9 @@ const GroupUpPage = () => {
         try {
             // add current user's group to the liked group's 'likes' list
             const groupDocRef = doc(db, 'groups', group.name);
-            updateDoc(groupDocRef)
             const data = {
-                likes: [...group.likes, currentUserGroup]
+                likes: [...group.likes, currentUserGroup],
+                swiped: [...group.swiped, currentUserGroup]
             }
             await updateDoc(groupDocRef, data)
             console.log("Value of an Existing Document Field has been updated");
@@ -62,17 +63,15 @@ const GroupUpPage = () => {
         try {
             // remove current user's group from the disliked group's 'likes' list
             const groupDocRef = doc(db, 'groups', group.name);
-
             const newLikes = group.likes.filter(like => like !== currentUserGroup);
-            await updateDoc(groupDocRef, { likes: newLikes });
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
-    const updateDoc = async (docRef, data) => {
-        try {
-            await docRef.update(data);
+            const data = {
+                likes: newLikes,
+                swiped: [...group.swiped, currentUserGroup]
+            }
+            await updateDoc(groupDocRef, data);
+            console.log("Value of an Existing Document Field has been updated");
+
         } catch (error) {
             console.error(error);
         }
@@ -87,10 +86,10 @@ const GroupUpPage = () => {
                     <Text style={styles.groupDescriptionText}>{group.description}</Text>
                 </View>
                 <TouchableOpacity onPress={() => handleLike(group)} style={styles.likeButton}>
-                    <Text style={styles.likeButtonText}>Like</Text>
+                    <Ionicons name={'heart'} size={25} color={'white'} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleDislike(group)} style={styles.dislikeButton}>
-                    <Text style={styles.dislikeButtonText}>Dislike</Text>
+                    <Ionicons name={'close'} size={25} color={'white'} />
                 </TouchableOpacity>
             </View>
         );
@@ -98,12 +97,16 @@ const GroupUpPage = () => {
 
     return (
         <View style={styles.container}>
-            <SwipeCards
-                cards={groupData}
-                renderCard={(group) => <Card group={group} />}
-                handleYup={(group) => handleLike(group)}
-                handleNope={(group) => handleDislike(group)}
-            />
+            {groupData.length > 0 && filteredGroups.length > 0 ? (
+                <SwipeCards
+                    cards={filteredGroups}
+                    renderCard={(group) => <Card group={group} />}
+                    handleYup={(group) => handleLike(group)}
+                    handleNope={(group) => handleDislike(group)}
+                />
+            ) : (
+                <Text style={styles.emptyMessage}>No more groups to group up with</Text>
+            )}
         </View>
     );
 };
