@@ -44,8 +44,8 @@ const Navigation = ({ navigation }) => {
                 },
             })}>
 
-            <Tab.Screen name={groupPageName} component={GroupPage} options={{ headerShown: false }}
-            />
+            <Tab.Screen name={groupPageName} component={GroupPage} options={{ headerShown: false }} />
+
             <Tab.Screen name={groupUpName} component={GroupUp} options={{ headerShown: false }} />
             <Tab.Screen name={userName} component={User}
                 options={{ headerShown: false }} />

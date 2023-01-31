@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { auth, db } from '../firebase-config';
-import { setDoc, collection, getDocs, doc, getDoc, updateDoc, query, where } from 'firebase/firestore';
+import { db } from '../firebase-config';
+import { doc, onSnapshot } from 'firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FetchUserData from '../components/FetchUserData';
-// import FetchGroupData from '../components/FetchGroupData';
+import GroupCard from '../components/GroupCard';
 
 const User = ({ navigation }) => {
     const [userData] = FetchUserData();
-    // const [groupData] = FetchGroupData();
+    const [userGroupData, setUserGroupData] = useState([]);
+
+    const getUserGroupData = () => {
+        try {
+            if (userData.groupid) {
+                const groupDocRef = doc(db, 'groups', userData.groupid);
+                onSnapshot(groupDocRef, snapshot => {
+                    setUserGroupData(snapshot.data());
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        getUserGroupData();
+    }, [userGroupData]);
 
 
     return (
@@ -24,10 +40,23 @@ const User = ({ navigation }) => {
             <View style={styles.userContainer}>
                 <Image
                     style={styles.userImage}
-                    source={require('./user.jpg')}
+                    source={{ uri: userData.image }}
                 />
                 <Text style={styles.userName}>{userData.firstname} {userData.lastname}</Text>
-                <Text style={styles.userBio}>I'm a software developer and love to travel. Swipe right if you're up for an adventure!</Text>
+            </View>
+            <View style={styles.userContainer}>
+                <Text style={styles.userName}>Your group</Text>
+                {userData.name !== '' ? (
+                    <GroupCard groupData={userGroupData} navigation={navigation} />
+                ) : (<TouchableOpacity
+                    onPress={() =>
+                        navigation.navigate('My Group')
+                    }
+                >
+                    <Text >Already have an account? Log in</Text>
+                </TouchableOpacity>
+                )}
+
             </View>
         </View>
     )
