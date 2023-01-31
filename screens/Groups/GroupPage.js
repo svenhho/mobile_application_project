@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { setDoc, collection, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { setDoc, collection, getDocs, doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import FetchUserData from '../../components/FetchUserData';
-import FetchGroupData from '../../components/FetchGroupData';
 
 
 export default function GroupPage() {
@@ -25,7 +24,7 @@ export default function GroupPage() {
         if (userData.groupid == '') {
             setIsPartOfGroup(false);
         }
-        if (userData.groupid != ''){
+        if (userData.groupid != '') {
             setIsPartOfGroup(true);
         }
         console.log(isPartOfGroup);
@@ -35,19 +34,51 @@ export default function GroupPage() {
         groupStatus();
     }, []);
 
-    const [userGroupData] = FetchGroupData();
-    
-    function RenderGroupMembers() {
-        if (userGroupData.members) {
-        userGroupData.members.forEach((element, index) => {
-            const key = index;
-            return (
-                <Text key={key} style={styles.underHeadline}>{element}</Text>
-            )
-        });         
+    const [currentUserGroup, setCurrentUserGroup] = useState('');
+    const [userGroupData, setUserGroupData] = useState([]);
+
+    const getUserGroupData = () => {
+        try {
+            // get current user's group
+            const userDocRef = doc(db, 'users', auth.currentUser?.email);
+            onSnapshot(userDocRef, snapshot => {
+                setCurrentUserGroup(snapshot.data().groupid);
+            });
+        } catch (error) {
+            console.error(error);
         }
-    }
-    
+    };
+
+    useEffect(() => {
+        getUserGroupData();
+    }, []);
+
+    useEffect(() => {
+        if (currentUserGroup) {
+            const groupDocRef = doc(db, 'groups', currentUserGroup);
+            onSnapshot(groupDocRef, snapshot => {
+                setUserGroupData(snapshot.data());
+            });
+        }
+    }, [currentUserGroup]);
+
+
+    const RenderGroupMembers = () => {
+        if (userGroupData.members) {
+            const groupMembers = userGroupData.members;
+            return (
+                <View>
+                    {groupMembers.map(member => (
+                        <Text style={styles.underHeadline} key={member}>
+                            {member}
+                        </Text>
+                    ))}
+                </View>
+            );
+        }
+    };
+
+
 
     const userColRef = collection(db, 'users');
 
@@ -60,14 +91,14 @@ export default function GroupPage() {
     }
 
     const handleCreateGroup = async () => {
-        
+
         // add yourself to group
         groupMembers.push(auth.currentUser.email)
         //setGroupMembers([...groupMembers, auth.currentUser.email]);
-        console.log(groupMembers)
+        // console.log(groupMembers)
         try {
             const groupDocRef = doc(db, "groups", groupName);
-            
+
             // Create the group in the "groups" collection
             await setDoc(groupDocRef, {
                 name: groupName,
@@ -79,9 +110,9 @@ export default function GroupPage() {
             });
             const docSnap = await getDoc(groupDocRef);
             const data = docSnap.data();
-            console.log(data);
-            
-            
+            // console.log(data);
+
+
             // Add groupid to the user's document
             groupMembers.forEach(async (member) => {
                 const userDocRef = doc(db, "users", member);
@@ -92,7 +123,7 @@ export default function GroupPage() {
 
             setIsModalVisible(false);
             handleCloseModal();
-            console.log(groupMembers);
+            // console.log(groupMembers);
             setIsPartOfGroup(true);
 
         } catch (error) {
@@ -109,13 +140,9 @@ export default function GroupPage() {
             quality: 1,
         });
 
-        console.log(result);
-
         if (!result.canceled) {
-
             setImage(result.assets[0].uri);
         }
-        console.log(image);
     };
 
     async function userAlreadyExists(email) {
@@ -157,11 +184,11 @@ export default function GroupPage() {
     return (
         <View style={styles.container}>
             {isPartOfGroup == false && (
-            <Button
-                buttonStyle={styles.createGroupButton}
-                title="Create group"
-                onPress={() => setIsModalVisible(true)}
-            />)}
+                <Button
+                    buttonStyle={styles.createGroupButton}
+                    title="Create group"
+                    onPress={() => setIsModalVisible(true)}
+                />)}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -205,14 +232,17 @@ export default function GroupPage() {
                             style={styles.addButton}
                             onPress={async () => {
                                 if (groupMemberEmail == '') {
+                                    alert('Email field is empty')
                                     console.log('Email field is empty')
                                 } else if (groupMemberEmail == auth.currentUser?.email) {
+                                    alert('The email cannot be yours')
                                     console.log('The email cannot be yours');
                                 } else if (groupMemberEmail.trim() !== '' && await userAlreadyExists(groupMemberEmail)) {
                                     setGroupMembers([...groupMembers, groupMemberEmail]);
                                     setGroupMemberEmail('')
                                     console.log(groupMembers)
                                 } else {
+                                    alert('User does not exist')
                                     console.log('User does not exist')
                                 }
                             }}
@@ -251,18 +281,24 @@ export default function GroupPage() {
             </Modal>
 
             {isPartOfGroup == true && (
-                <View style={styles.groupViewContainer}>
-                    <View style={styles.headerGroup}>
-                        <Image
-                            style={styles.groupImage}
-                            source={{ uri: userGroupData.image }}/>
-                        <Text style={styles.headerTitle}>{userGroupData.name}</Text>
-                        <Text style={styles.descriptionStyle}>{userGroupData.description}</Text>
-                        <Text style={styles.underHeadline}>Group members:</Text>
-                        <RenderGroupMembers></RenderGroupMembers>
+                <View style={styles.container}>
+                    <View style={styles.header}>
+
+                        <Text style={styles.headerTitle}>Group Profile</Text>
                     </View>
-                    
+                    <View style={styles.userContainer}>
+                        <Image
+                            style={styles.userImage}
+                            source={{ uri: userGroupData.image }}
+                        />
+                        <Text style={styles.userName}>{userGroupData.name}</Text>
+                        <Text style={styles.userBio}>{userGroupData.description}</Text>
+                        <Text style={styles.userBio}>Group members</Text>
+                        <RenderGroupMembers />
+
+                    </View>
                 </View>
+
             )}
 
         </View>
@@ -271,14 +307,6 @@ export default function GroupPage() {
 
 
 const styles = StyleSheet.create({
-    elementStyle: {
-        color: 'white',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        width: '60%',
-        fontSize: 16,
-        marginBottom: 4,
-    },
     underHeadline: {
         fontWeight: 'bold',
         fontSize: 20,
@@ -295,33 +323,22 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 30,
     },
-    groupViewContainer: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    headerGroup: {
-        flexDirection: 'column',
+    header: {
+        flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
         padding: 20,
+        backgroundColor: '#F5A623',
     },
     headerTitle: {
         fontWeight: 'bold',
         fontSize: 25,
         color: 'white',
     },
-    descriptionStyle: {
-        fontSize: 16,
-        color: 'white',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        width: '60%',
-        marginBottom: 10,
-    },
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#FF5B5B',
+        backgroundColor: '#F5A623',
+        paddingTop: 40,
     },
     createGroupButton: {
         width: '80%',
@@ -352,16 +369,6 @@ const styles = StyleSheet.create({
         marginBottom: 48,
         color: '#ff5b5b',
         fontWeight: 'bold',
-    },
-    input: {
-        width: '80%',
-        height: 48,
-        borderWidth: 1,
-        borderColor: '#ff5b5b',
-        backgroundColor: '#fff',
-        marginVertical: 8,
-        padding: 8,
-        borderRadius: 24,
     },
     modalButtonsContainer: {
         flexDirection: 'row',
@@ -457,17 +464,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
     },
-    imageContainer: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        marginTop: 20,
-        shadowColor: 'black',
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84
+    userContainer: {
+        alignItems: 'center',
+        marginTop: 50,
+    },
+    userImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+        marginBottom: 10,
+    },
+    userName: {
+        fontSize: 25,
+        color: 'white',
+        marginBottom: 10,
+    },
+    userBio: {
+        textAlign: 'center',
+        fontSize: 15,
+        color: 'white',
+        marginHorizontal: 20,
     },
 });
