@@ -24,38 +24,10 @@ const User = ({ navigation }) => {
             <View style={styles.userContainer}>
                 <Image
                     style={styles.userImage}
-                    source={{ uri: userData.image }}
+                    source={require('./user.jpg')}
                 />
                 <Text style={styles.userName}>{userData.firstname} {userData.lastname}</Text>
                 <Text style={styles.userBio}>I'm a software developer and love to travel. Swipe right if you're up for an adventure!</Text>
-            </View>
-            {/* <View>
-                <Text style={styles.userName}> Your group</Text>
-                {userData && userData.groupid ? (
-                    <View style={styles.groupContainer}>
-                        <Image
-                            style={styles.groupImage}
-                            source={{ uri: groupData.image }}
-                        />
-                        <Text style={styles.groupName}>{userData.groupid}</Text>
-                    </View>
-                ) : (
-                    <Text style={styles.userName}>User or group does not exist</Text>
-                )}
-            </View> */}
-            <View style={styles.footer}>
-                <TouchableOpacity
-                    style={styles.footerButton}
-                    onPress={() => alert('Like')}
-                >
-                    <Ionicons name={'heart'} size={25} color={'white'} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.footerButton}
-                    onPress={() => alert('Dislike')}
-                >
-                    <Ionicons name={'close'} size={25} color={'white'} />
-                </TouchableOpacity>
             </View>
         </View>
     )
