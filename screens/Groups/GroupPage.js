@@ -74,7 +74,8 @@ export default function GroupPage() {
                 description: groupDescription,
                 image: image,
                 members: groupMembers,
-                likes: likes
+                likes: likes,
+                swiped: swiped
             });
             const docSnap = await getDoc(groupDocRef);
             const data = docSnap.data();
@@ -111,7 +112,6 @@ export default function GroupPage() {
         console.log(result);
 
         if (!result.canceled) {
-            console.log(result.assets[0].uri);
 
             setImage(result.assets[0].uri);
         }
@@ -188,7 +188,10 @@ export default function GroupPage() {
                     />
                     <View style={styles.modalInput}>
                         <Button title="Pick an image from camera roll" onPress={pickImage} />
-                        {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
+                        {image && <Image
+                            source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
+                            style={styles.groupImage}
+                        />}
                     </View>
                     <View>
                         <TextInput
