@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { setDoc, collection, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
+import FetchUserData from '../../components/FetchUserData';
+import FetchGroupData from '../../components/FetchGroupData';
 
 
 export default function GroupPage() {
@@ -14,11 +16,40 @@ export default function GroupPage() {
     const [groupMemberEmail, setGroupMemberEmail] = useState('');
     const [groupMembers, setGroupMembers] = useState([]);
     const likes = [];
-    const swiped = [];
+    const swiped = []
 
+    const [userData] = FetchUserData();
+    const [isPartOfGroup, setIsPartOfGroup] = useState(false)
+
+    const groupStatus = async () => {
+        if (userData.groupid == '') {
+            setIsPartOfGroup(false);
+        }
+        if (userData.groupid != ''){
+            setIsPartOfGroup(true);
+        }
+        console.log(isPartOfGroup);
+    }
+
+    useEffect(() => {
+        groupStatus();
+    }, []);
+
+    const [userGroupData] = FetchGroupData();
+    
+    function RenderGroupMembers() {
+        if (userGroupData.members) {
+        userGroupData.members.forEach((element, index) => {
+            const key = index;
+            return (
+                <Text key={key} style={styles.underHeadline}>{element}</Text>
+            )
+        });         
+        }
+    }
+    
 
     const userColRef = collection(db, 'users');
-
 
     const handleCloseModal = () => {
         setIsModalVisible(false);
@@ -29,12 +60,14 @@ export default function GroupPage() {
     }
 
     const handleCreateGroup = async () => {
-
-        // add current user to the group as well
-        setGroupMembers([...groupMembers, auth.currentUser?.email]);
+        
+        // add yourself to group
+        groupMembers.push(auth.currentUser.email)
+        //setGroupMembers([...groupMembers, auth.currentUser.email]);
+        console.log(groupMembers)
         try {
             const groupDocRef = doc(db, "groups", groupName);
-
+            
             // Create the group in the "groups" collection
             await setDoc(groupDocRef, {
                 name: groupName,
@@ -47,7 +80,8 @@ export default function GroupPage() {
             const docSnap = await getDoc(groupDocRef);
             const data = docSnap.data();
             console.log(data);
-
+            
+            
             // Add groupid to the user's document
             groupMembers.forEach(async (member) => {
                 const userDocRef = doc(db, "users", member);
@@ -59,6 +93,7 @@ export default function GroupPage() {
             setIsModalVisible(false);
             handleCloseModal();
             console.log(groupMembers);
+            setIsPartOfGroup(true);
 
         } catch (error) {
             console.error(error);
@@ -119,16 +154,14 @@ export default function GroupPage() {
         );
     }
 
-
-
-
     return (
         <View style={styles.container}>
+            {isPartOfGroup == false && (
             <Button
                 buttonStyle={styles.createGroupButton}
                 title="Create group"
                 onPress={() => setIsModalVisible(true)}
-            />
+            />)}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -216,12 +249,74 @@ export default function GroupPage() {
                     </View>
                 </View>
             </Modal>
+
+            {isPartOfGroup == true && (
+                <View style={styles.groupViewContainer}>
+                    <View style={styles.headerGroup}>
+                        <Image
+                            style={styles.groupImage}
+                            source={{ uri: userGroupData.image }}/>
+                        <Text style={styles.headerTitle}>{userGroupData.name}</Text>
+                        <Text style={styles.descriptionStyle}>{userGroupData.description}</Text>
+                        <Text style={styles.underHeadline}>Group members:</Text>
+                        <RenderGroupMembers></RenderGroupMembers>
+                    </View>
+                    
+                </View>
+            )}
+
         </View>
     );
 }
 
 
 const styles = StyleSheet.create({
+    elementStyle: {
+        color: 'white',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '60%',
+        fontSize: 16,
+        marginBottom: 4,
+    },
+    underHeadline: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: 'white',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '60%',
+        marginBottom: 4,
+    },
+    groupImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+        marginBottom: 10,
+        marginTop: 30,
+    },
+    groupViewContainer: {
+        flex: 1,
+        flexDirection: 'column',
+    },
+    headerGroup: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: 20,
+    },
+    headerTitle: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        color: 'white',
+    },
+    descriptionStyle: {
+        fontSize: 16,
+        color: 'white',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '60%',
+        marginBottom: 10,
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -247,8 +342,6 @@ const styles = StyleSheet.create({
         // padding: 16,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-
-
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
