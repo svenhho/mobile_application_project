@@ -3,13 +3,11 @@ import MapView, { Callout, Circle, Marker } from 'react-native-maps';
 import { StyleSheet, View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import Slider from '@react-native-community/slider';
 
-export default function MapComponent() {
-  const [radius, setRadius] = useState(1500);
+export default function MapComponent({latitude, longitude, radius, onUpdateLatitude, onUpdateLongitude}) {
   const [targetPin, setTargetPin] = useState({
-    latitude: undefined,
-    longitude: undefined,
+    latitude: latitude,
+    longitude: longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -44,12 +42,6 @@ export default function MapComponent() {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     });
-    setTargetPin({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
     console.log(location.coords.latitude, location.coords.longitude);
   }
 
@@ -58,7 +50,7 @@ export default function MapComponent() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.mapContainer}>
       <GooglePlacesAutocomplete
         styles={styles.searchbar}
         placeholder='Search'
@@ -74,6 +66,8 @@ export default function MapComponent() {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           })
+          onUpdateLatitude(details.geometry.location.lat);
+          onUpdateLongitude(details.geometry.location.lng);
           setMapRegion({
             latitude: details.geometry.location.lat,
             longitude: details.geometry.location.lng,
@@ -118,6 +112,8 @@ export default function MapComponent() {
                   latitude: e.nativeEvent.coordinate.latitude,
                   longitude: e.nativeEvent.coordinate.longitude
                 })
+                onUpdateLatitude(e.nativeEvent.coordinate.latitude);
+                onUpdateLongitude(e.nativeEvent.coordinate.longitude);
               }
               }>
               <Callout>
@@ -129,35 +125,19 @@ export default function MapComponent() {
           </>
         )}
       </MapView>
-      {targetPin.latitude !== undefined && (
-        <>
-          <Slider
-            style={styles.slider}
-            minimumValue={100}
-            step={100}
-            value={radius}
-            onValueChange={setRadius}
-            maximumValue={5000}
-            minimumTrackTintColor="#FFFFFF"
-            maximumTrackTintColor="#000000"
-            thumbTintColor='#ff5b5b'
-          />
-          <Text style={styles.textbox}>Distance in meters: {radius}</Text>
-        </>)}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mapContainer: {
     flex: 1,
-    marginTop: 50,
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '80%',
   },
   map: {
-    height: 300,
+    height: 250,
     backgroundColor: '#F5A623',
   },
   searchbar: {
@@ -175,7 +155,6 @@ const styles = StyleSheet.create({
     container: { flex: 1, position: 'absolute', width: '100%', zIndex: 1 },
     width: '90%',
     height: 40,
-    fontSize: 16,
 
   },
 });
