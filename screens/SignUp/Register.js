@@ -8,7 +8,6 @@ import { doc, setDoc } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import * as ImagePicker from 'expo-image-picker';
-import { signOut } from "firebase/auth";
 
 
 export default function Register({ navigation }) {
@@ -62,7 +61,7 @@ export default function Register({ navigation }) {
         age: age,
         image: image,
         userid: user.uid,
-        groupid: groupid
+        groupid: groupid,
       });
 
       navigation.replace('Login');
