@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { setDoc, collection, getDocs, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import FetchUserData from '../../components/FetchUserData';
 import FetchGroupData from '../../components/FetchGroupData';
+import MapComponent from '../../components/MapComponent';
 
 
 export default function GroupPage() {
@@ -17,6 +18,10 @@ export default function GroupPage() {
     const [groupMembers, setGroupMembers] = useState([]);
     const likes = [];
     const swiped = []
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
+    const [radius, setRadius] = useState(2000);
+
 
     const [userData] = FetchUserData();
     const [isPartOfGroup, setIsPartOfGroup] = useState(false)
@@ -25,7 +30,7 @@ export default function GroupPage() {
         if (userData.groupid == '') {
             setIsPartOfGroup(false);
         }
-        if (userData.groupid != ''){
+        else {
             setIsPartOfGroup(true);
         }
         console.log(isPartOfGroup);
@@ -63,7 +68,7 @@ export default function GroupPage() {
         
         // add yourself to group
         groupMembers.push(auth.currentUser.email)
-        //setGroupMembers([...groupMembers, auth.currentUser.email]);
+        setGroupMembers([...groupMembers, auth.currentUser.email]);
         console.log(groupMembers)
         try {
             const groupDocRef = doc(db, "groups", groupName);
@@ -75,7 +80,10 @@ export default function GroupPage() {
                 image: image,
                 members: groupMembers,
                 likes: likes,
-                swiped: swiped
+                swiped: swiped,
+                latitude: latitude,
+                longitude: longitude,
+                radius: radius,
             });
             const docSnap = await getDoc(groupDocRef);
             const data = docSnap.data();
@@ -146,7 +154,7 @@ export default function GroupPage() {
     function GroupMember({ member, onRemove }) {
         return (
             <View style={styles.groupMemberContainer}>
-                <Text style={styles.groupMemberText}>{member}</Text>
+                <Text>{member}</Text>
                 <TouchableOpacity style={styles.removeButton} onPress={onRemove}>
                     <Ionicons name="ios-close" size={24} color="black" />
                 </TouchableOpacity>
@@ -171,38 +179,41 @@ export default function GroupPage() {
                 }
             >
                 <View style={styles.modalContainer}>
-                    <Text style={styles.modalTitle}>Create a new group</Text>
+                    <Text style={{textAlign: 'center', fontSize: 16}}>Create a new group</Text>
                     <TextInput
-                        style={styles.modalInput}
+                        style={{marginLeft: 40}}
                         placeholder="Group name"
                         value={groupName}
                         onChangeText={setGroupName}
                         autoCapitalize="none"
                     />
                     <TextInput
-                        style={styles.modalInput}
+                        style={{marginLeft: 40, marginRight: 40}}
                         placeholder="Group description"
                         value={groupDescription}
                         onChangeText={setGroupDescription}
                         autoCapitalize="none"
                     />
-                    <View style={styles.modalInput}>
-                        <Button title="Pick an image from camera roll" onPress={pickImage} />
+                    <View style={{alignItems: 'center'}}>
+                    <TouchableOpacity
+                            style={styles.addButton}
+                            onPress={pickImage}
+                        >
+                            <Text style={{color: '#ff5b5b'}}>Pick an image from camera roll</Text>
+                        </TouchableOpacity>
                         {image && <Image
                             source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
                             style={styles.groupImage}
                         />}
                     </View>
-                    <View>
-                        <TextInput
-                            style={styles.modalInput}
-                            placeholder="Add member"
-                            value={groupMemberEmail}
-                            onChangeText={setGroupMemberEmail}
-                            autoCapitalize="none"
-                        />
+                    <View style={{
+                        flexDirection: 'row',
+                        marginLeft: 40,
+                        marginRight: 40,
+                        alignItems: 'center',
+                                    }}>
+                        
                         <TouchableOpacity
-                            style={styles.addButton}
                             onPress={async () => {
                                 if (groupMemberEmail == '') {
                                     console.log('Email field is empty')
@@ -217,14 +228,39 @@ export default function GroupPage() {
                                 }
                             }}
                         >
-                            <Text style={styles.addButtonText}>Add</Text>
+                            <Text style={{color: '#ff5b5b', marginRight: 10}}>Add member</Text>
                         </TouchableOpacity>
+                        <TextInput
+                            placeholder="Member email"
+                            value={groupMemberEmail}
+                            onChangeText={setGroupMemberEmail}
+                            autoCapitalize="none"
+                        />
                     </View>
                     <View>
                         {groupMembers.map((member, index) => (
                             <GroupMember member={member} onRemove={() => handleRemove(index)} />
                         ))}
                     </View>
+                    
+                    <TextInput
+                        style={{marginLeft: 40}}
+                        placeholder="Search radius in meters"
+                        value={radius}
+                        onChangeText={setRadius}
+                        autoCapitalize="none"
+                        keyboardType='numeric'
+                        maxLength={6}
+                    />
+                    
+                    <MapComponent 
+                         latitude={latitude}
+                         longitude={longitude}
+                         radius={radius}
+                         onUpdateLatitude={setLatitude}
+                         onUpdateLongitude={setLongitude}
+                        ></MapComponent>
+                    
                     <View style={styles.modalButtonsContainer}>
                         <TouchableOpacity
                             style={styles.modalCancelButton}
@@ -289,11 +325,13 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     groupImage: {
-        width: 150,
-        height: 150,
+        width: 100,
+        height: 100,
         borderRadius: 75,
         marginBottom: 10,
-        marginTop: 30,
+        marginTop: 10,
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     groupViewContainer: {
         flex: 1,
@@ -337,8 +375,6 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
         // padding: 16,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -409,33 +445,14 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 24,
     },
-    addMemberButton: {
-        width: '20%',
-        height: 48,
-        backgroundColor: '#ff5b5b',
-        borderRadius: 24,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    addMemberButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-    },
+
     groupMemberContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
-        marginVertical: 8,
+        marginLeft: 40,
     },
-    groupMemberInput: {
-        width: '80%',
-        height: 48,
-        borderWidth: 1,
-        borderColor: '#ff5b5b',
-        backgroundColor: '#fff',
-        padding: 8,
-        borderRadius: 24,
-    },
+
     removeButton: {
         width: '20%',
         height: 48,
@@ -451,11 +468,6 @@ const styles = StyleSheet.create({
         marginVertical: 16,
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    cancelButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 16,
     },
     imageContainer: {
         width: 100,
