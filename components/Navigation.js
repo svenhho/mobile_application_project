@@ -22,7 +22,7 @@ const Navigation = ({ navigation }) => {
             padding={48}
             screenOptions={({ route }) => ({
                 padding: 200,
-                activeTintColor: '#1db954s',
+                activeTintColor: '#ff5b5b',
                 inactiveTintColor: 'grey',
                 labelStyle: { paddingBottom: 10, fontSize: 10 },
                 style: { padding: 10, height: 70 },
