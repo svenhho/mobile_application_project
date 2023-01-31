@@ -73,86 +73,98 @@ export default function Register({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign up</Text>
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="First name"
-        value={firstName}
-        onChangeText={setFirstName}
-        style={styles.input}
-      />
-      <TextInput
-        placeholder="Last name"
-        value={lastName}
-        onChangeText={setLastName}
-        style={styles.input}
-      />
-      <SelectList
-        placeholder="Gender"
-        setSelected={(val) => setGender(val)}
-        data={genderOptions}
-        style={styles.input}
-        save="value"
-      />
-      <TextInput
-        placeholder="Age"
-        value={age}
-        onChangeText={setAge}
-        style={styles.input}
-      />
-      <View style={styles.modalInput}>
-        <Button title="Pick an image from camera roll" onPress={pickImage} />
-        {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Sign up</Text>
       </View>
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        style={styles.input}
-        secureTextEntry
-      />
-      <TextInput
-        placeholder="Confirm password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        style={styles.input}
-        secureTextEntry
-      />
-      <Button
-        buttonStyle={styles.signUpButton}
-        title="Sign up"
-        onPress={handleSubmit}
-      />
-      <TouchableOpacity style={styles.signUp}
-        onPress={() =>
-          navigation.replace('Login')
-        }
-      >
-        <Text style={styles.signInText}>Already have an account? Log in</Text>
-      </TouchableOpacity>
-    </View>
+      <ScrollView style={styles.scrollView}>
+        <TextInput
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="First name"
+          value={firstName}
+          onChangeText={setFirstName}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Last name"
+          value={lastName}
+          onChangeText={setLastName}
+          style={styles.input}
+        />
+        <SelectList
+          placeholder="Gender"
+          setSelected={(val) => setGender(val)}
+          data={genderOptions}
+          style={styles.selectList}
+          search={false}
+
+          save="value"
+        />
+        <TextInput
+          placeholder="Age"
+          value={age}
+          onChangeText={setAge}
+          style={styles.input}
+        />
+        <View style={styles.modalInput}>
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
+          {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
+        </View>
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          style={styles.input}
+          secureTextEntry
+        />
+        <TextInput
+          placeholder="Confirm password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          style={styles.input}
+          secureTextEntry
+        />
+        <Button
+          buttonStyle={styles.signUpButton}
+          title="Sign up"
+          onPress={handleSubmit}
+        />
+        <TouchableOpacity style={styles.signUp}
+          onPress={() =>
+            navigation.replace('Login')
+          }
+        >
+          <Text style={styles.signInText}>Already have an account? Log in</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
 
   )
 
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-  title: {
+  scrollView: {
+    flex: 1,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  headerText: {
     fontSize: 32,
-    marginBottom: 48,
     color: '#ff5b5b',
     fontWeight: 'bold',
   },
@@ -165,6 +177,14 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     marginVertical: 8,
     color: '#ff5b5b',
+  },
+  selectList: {
+    width: '80%',
+    height: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
   },
   signUpButton: {
     backgroundColor: '#ff5a5f',
