@@ -95,7 +95,7 @@ export default function Register({ navigation }) {
           onChangeText={setLastName}
           style={styles.input}
         />
-        <SelectList
+        {/* <SelectList
           placeholder="Gender"
           setSelected={(val) => setGender(val)}
           data={genderOptions}
@@ -109,7 +109,7 @@ export default function Register({ navigation }) {
           value={age}
           onChangeText={setAge}
           style={styles.input}
-        />
+        /> */}
         <View style={styles.modalInput}>
           <Button title="Pick an image from camera roll" onPress={pickImage} />
           {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
