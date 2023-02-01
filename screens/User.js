@@ -1,14 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { auth, db } from '../firebase-config';
-import { setDoc, collection, getDocs, doc, getDoc, updateDoc, query, where } from 'firebase/firestore';
+import { db } from '../firebase-config';
+import { doc, onSnapshot } from 'firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FetchUserData from '../components/FetchUserData';
-// import FetchGroupData from '../components/FetchGroupData';
+import GroupCard from '../components/GroupCard';
+
 
 const User = ({ navigation }) => {
     const [userData] = FetchUserData();
-    // const [groupData] = FetchGroupData();
+    const [userGroupData, setUserGroupData] = useState([]);
+
+    const getUserGroupData = () => {
+        try {
+            if (userData.groupid) {
+                const groupDocRef = doc(db, 'groups', userData.groupid);
+                onSnapshot(groupDocRef, snapshot => {
+                    setUserGroupData(snapshot.data());
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        getUserGroupData();
+    }, [userGroupData]);
 
 
     return (
@@ -27,35 +44,14 @@ const User = ({ navigation }) => {
                     source={{ uri: userData.image }}
                 />
                 <Text style={styles.userName}>{userData.firstname} {userData.lastname}</Text>
-                <Text style={styles.userBio}>I'm a software developer and love to travel. Swipe right if you're up for an adventure!</Text>
             </View>
-            {/* <View>
-                <Text style={styles.userName}> Your group</Text>
-                {userData && userData.groupid ? (
-                    <View style={styles.groupContainer}>
-                        <Image
-                            style={styles.groupImage}
-                            source={{ uri: groupData.image }}
-                        />
-                        <Text style={styles.groupName}>{userData.groupid}</Text>
-                    </View>
-                ) : (
-                    <Text style={styles.userName}>User or group does not exist</Text>
+            <View style={styles.userContainer}>
+                <Text style={styles.userName}>Your group</Text>
+                {userGroupData.name !== '' ? (
+                    <GroupCard groupData={userGroupData} navigation={navigation} />
+                ) : (<Text style={styles.userName} onPress={() => navigation.navigate('My Group')}>Log in</Text>
                 )}
-            </View> */}
-            <View style={styles.footer}>
-                <TouchableOpacity
-                    style={styles.footerButton}
-                    onPress={() => alert('Like')}
-                >
-                    <Ionicons name={'heart'} size={25} color={'white'} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.footerButton}
-                    onPress={() => alert('Dislike')}
-                >
-                    <Ionicons name={'close'} size={25} color={'white'} />
-                </TouchableOpacity>
+
             </View>
         </View>
     )
