@@ -79,7 +79,7 @@ export default function Login({ navigation }) {
             >
                 <Text style={styles.buttonText1}>Log in</Text>
             </TouchableOpacity>
-            
+
             <TouchableOpacity style={styles.signUp}
                 onPress={() =>
                     navigation.replace('Register')
