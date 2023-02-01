@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FetchUserData from '../components/FetchUserData';
 import GroupCard from '../components/GroupCard';
 
+
 const User = ({ navigation }) => {
     const [userData] = FetchUserData();
     const [userGroupData, setUserGroupData] = useState([]);
@@ -46,15 +47,9 @@ const User = ({ navigation }) => {
             </View>
             <View style={styles.userContainer}>
                 <Text style={styles.userName}>Your group</Text>
-                {userData.name !== '' ? (
+                {userGroupData.name !== '' ? (
                     <GroupCard groupData={userGroupData} navigation={navigation} />
-                ) : (<TouchableOpacity
-                    onPress={() =>
-                        navigation.navigate('My Group')
-                    }
-                >
-                    <Text >Already have an account? Log in</Text>
-                </TouchableOpacity>
+                ) : (<Text style={styles.userName} onPress={() => navigation.navigate('My Group')}>Log in</Text>
                 )}
 
             </View>
