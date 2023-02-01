@@ -13,6 +13,7 @@ const CreateNewGroup = () => {
     const [groupDescription, setGroupDescription] = useState('');
     const [image, setImage] = useState('');
     const [groupMemberEmail, setGroupMemberEmail] = useState('');
+    const groupLeader = auth.currentUser?.email;
     const [groupMembers, setGroupMembers] = useState([]);
     const likes = [];
     const swiped = []
@@ -94,6 +95,7 @@ const CreateNewGroup = () => {
                 name: groupName,
                 description: groupDescription,
                 image: image,
+                groupLeader: groupLeader,
                 members: groupMembers,
                 likes: likes,
                 swiped: swiped,
