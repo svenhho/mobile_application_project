@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for mobile_application_project/components/AppNavigator.js</title>
+    <title>Code coverage report for mobile_application_project/firebase-config.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">mobile_application_project/components</a> AppNavigator.js</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">mobile_application_project</a> firebase-config.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
@@ -87,25 +87,12 @@
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
 <a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L25'></a><a href='#L25'>25</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,37 +107,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import 'react-native-gesture-handler';
-import * as React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span></td><td class="text"><pre class="prettyprint lang-js">import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from "firebase/storage";
 &nbsp;
 &nbsp;
-import Login from '../screens/Login';
-import Settings from '../screens/Settings'
-import Navigation from './Navigation';
-import Register from '../screens/SignUp/Register';
-import GroupPage from '../screens/Groups/GroupPage';
-import GroupUp from '../screens/Matches/GroupUp';
 &nbsp;
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyD6KdmoPLlKYgs_vW_qzsOeSvj0DYaY3XE",
+  authDomain: "exerplan.firebaseapp.com",
+  projectId: "exerplan",
+  storageBucket: "exerplan.appspot.com",
+  messagingSenderId: "229441277320",
+  appId: "1:229441277320:web:1114355611190433847e3d",
+  measurementId: "G-EVFL6CFBNZ"
+};
 &nbsp;
-const Stack = createNativeStackNavigator();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 &nbsp;
-export default function AppNavigator() {
-&nbsp;
-  return (
-    &lt;Stack.Navigator
-      initialRouteName='Login'
-    &gt;
-      &lt;Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="main" component={Navigation} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="Settings" component={Settings} /&gt;
-      &lt;Stack.Screen name="Register" component={Register} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="GroupPage" component={GroupPage} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="GroupUp" component={GroupUp} options={{ headerShown: false }} /&gt;
-    &lt;/Stack.Navigator&gt;
-  );
-}</pre></td></tr></table></pre>
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
@@ -159,14 +144,14 @@ export default function AppNavigator() {
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
                 at 2023-02-01T09:44:06.837Z
             </div>
-        <script src="../../prettify.js"></script>
+        <script src="../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../sorter.js"></script>
-        <script src="../../block-navigation.js"></script>
+        <script src="../sorter.js"></script>
+        <script src="../block-navigation.js"></script>
     </body>
 </html>
     

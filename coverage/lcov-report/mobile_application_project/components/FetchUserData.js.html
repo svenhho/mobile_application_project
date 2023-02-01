@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for mobile_application_project/components/AppNavigator.js</title>
+    <title>Code coverage report for mobile_application_project/components/FetchUserData.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">mobile_application_project/components</a> AppNavigator.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">mobile_application_project/components</a> FetchUserData.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">9.09% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/11</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">9.09% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>1/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -96,61 +96,61 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import 'react-native-gesture-handler';
-import * as React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { useState, useEffect } from 'react';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { auth, db } from '../firebase-config';
+&nbsp;
+const FetchUserData = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
+  const [userData, setUserData] = <span class="cstat-no" title="statement not covered" >useState({});</span>
+&nbsp;
+  const getUserData = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      // get current user's group
+      const userDocRef = <span class="cstat-no" title="statement not covered" >doc(db, 'users', auth.currentUser?.email);</span>
+<span class="cstat-no" title="statement not covered" >      onSnapshot(userDocRef, <span class="fstat-no" title="function not covered" >sn</span>apshot =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setUserData(snapshot.data());</span>
+      });
 &nbsp;
 &nbsp;
-import Login from '../screens/Login';
-import Settings from '../screens/Settings'
-import Navigation from './Navigation';
-import Register from '../screens/SignUp/Register';
-import GroupPage from '../screens/Groups/GroupPage';
-import GroupUp from '../screens/Matches/GroupUp';
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >      console.error(error);</span>
+    }
+  };
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    getUserData();</span>
+  }, []);
 &nbsp;
-const Stack = createNativeStackNavigator();
+<span class="cstat-no" title="statement not covered" >  return [userData];</span>
+};
 &nbsp;
-export default function AppNavigator() {
-&nbsp;
-  return (
-    &lt;Stack.Navigator
-      initialRouteName='Login'
-    &gt;
-      &lt;Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="main" component={Navigation} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="Settings" component={Settings} /&gt;
-      &lt;Stack.Screen name="Register" component={Register} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="GroupPage" component={GroupPage} options={{ headerShown: false }} /&gt;
-      &lt;Stack.Screen name="GroupUp" component={GroupUp} options={{ headerShown: false }} /&gt;
-    &lt;/Stack.Navigator&gt;
-  );
-}</pre></td></tr></table></pre>
+export default FetchUserData;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->

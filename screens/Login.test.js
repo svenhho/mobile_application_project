@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
-import AppNavigator from '../AppNavigator';
+import AppNavigator from '../components/AppNavigator';
 
 // code and inspiration: https://callstack.github.io/react-native-testing-library/docs/react-navigation/
 
@@ -22,10 +22,10 @@ describe('Testing react navigation', () => {
     );
 
     render(component);
-    const toClick = await screen.findByText('Sign up');
+    const toClick = await screen.findByText("Don't have an account? Sign up");
 
     fireEvent(toClick, 'press');
-    const newButton = await screen.findByText('Register');
+    const newButton = await screen.findByText('Sign up');
 
     expect(newButton).toBeTruthy();
   });
