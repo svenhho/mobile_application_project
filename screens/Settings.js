@@ -3,8 +3,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase-config';
 import { signOut } from "firebase/auth";
 import { useNavigation } from '@react-navigation/native';
-import MapCalculateShow from '../components/MapCalculateShow';
-import MapComponent from '../components/MapComponent';
 
 export default function Settings() {
 
@@ -31,8 +29,6 @@ export default function Settings() {
             >
                 <Text style={styles.buttonText}>Log out</Text>
             </TouchableOpacity>
-            <MapComponent></MapComponent>
-            <MapCalculateShow></MapCalculateShow>
         </View>
     )
 }
@@ -47,7 +43,11 @@ const styles = StyleSheet.create({
     emailText: {
         color: 'white',
         fontSize: 18,
-        marginBottom: 20
+        marginBottom: 20,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '90%',
+        marginTop: 50,
     },
     button: {
         backgroundColor: '#ff5a5f',
@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         marginTop: 40,
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     buttonText: {
         color: 'white',

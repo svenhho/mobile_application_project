@@ -20,7 +20,8 @@ export default function GroupPage() {
     const swiped = []
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
-    const [radius, setRadius] = useState(2000);
+    const [radius, setRadius] = useState(8000);
+    const matches = []
 
 
     const [userData] = FetchUserData();
@@ -84,6 +85,7 @@ export default function GroupPage() {
                 latitude: latitude,
                 longitude: longitude,
                 radius: radius,
+                matches: matches,
             });
             const docSnap = await getDoc(groupDocRef);
             const data = docSnap.data();
