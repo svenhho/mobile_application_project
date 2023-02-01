@@ -74,7 +74,7 @@ export default function Register({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Sign up</Text>
+        <Text style={styles.headerText}>Registration</Text>
       </View>
       <ScrollView style={styles.scrollView}>
         <TextInput
@@ -160,12 +160,13 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 10,
   },
   headerText: {
     fontSize: 32,
     color: '#ff5b5b',
     fontWeight: 'bold',
+    marginTop: 10,
   },
   input: {
     width: '80%',

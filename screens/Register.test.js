@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer, usePreventRemoveContext } from '@react-navigation/native';
 import { render, fireEvent, screen } from '@testing-library/react-native';
-import Register from './Register';
+import Register from './SignUp/Register';
 import { isValidTimestamp } from '@firebase/util';
 
 // code and inspiration: https://callstack.github.io/react-native-testing-library/docs/react-navigation/
@@ -22,7 +22,7 @@ describe('Create new user', () => {
 
     render(component);
 
-    const toClick = await screen.findByText('Register');
+    const toClick = await screen.findByText("Sign up");
     
     expect(toClick).toBeTruthy();
   });

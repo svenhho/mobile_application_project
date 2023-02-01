@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import AppNavigator from './components/AppNavigator';
+
 // code and inspiration: https://callstack.github.io/react-native-testing-library/docs/react-navigation/
 
 // Silence the warning https://github.com/facebook/react-native/issues/11094#issuecomment-263240420
@@ -22,7 +23,7 @@ describe('Testing react navigation', () => {
     render(component);
 
     const loginText = await screen.findByText('Log in');
-    const registrationText = await screen.findByText('Sign up');
+    const registrationText = await screen.findByText("Don't have an account? Sign up");
 
     expect(loginText).toBeTruthy();
     expect(registrationText).toBeTruthy();
