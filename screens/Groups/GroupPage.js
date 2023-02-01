@@ -4,7 +4,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import { useNavigation } from '@react-navigation/native';
 import FetchUserData from '../../components/FetchUserData';
-import CreateNewGroup from '../../components/CreateNewGroup';
+import CreateNewGroup from './CreateNewGroup';
 import FetchGroupData from '../../components/FetchGroupData';
 import MatchedGroupCards from '../../components/MatchedGroupCards';
 
@@ -92,16 +92,12 @@ export default function GroupPage() {
     const [matchedGroupData, setMatchedGroupData] = useState([]);
 
     const getMatchedGroupData = () => {
-
-        // Check if there is a match between the current group and any of the other groups
         allGroupsData.forEach(groupData => {
             if (userGroupData.likes && userGroupData.likes.includes(groupData.groupid) && groupData.likes.includes(userGroupData.groupid)) {
-                // If there's a match, update the "matches" fields for both groups
                 const updatedCurrentGroupData = { ...userGroupData, matches: [...userGroupData.matches, groupData.groupid] };
                 const updatedGroupData = { ...groupData, matches: [...groupData.matches, userGroupData.groupid] };
 
-                // Store the updated groups data in the matchedGroupData state
-                setMatchedGroupData([...matchedGroupData, updatedCurrentGroupData, updatedGroupData]);
+                setMatchedGroupData(prevMatchedGroupData => [...prevMatchedGroupData, updatedCurrentGroupData, updatedGroupData]);
             }
         });
     };
@@ -110,7 +106,6 @@ export default function GroupPage() {
     useEffect(() => {
         getMatchedGroupData();
     }, []);
-
     return (
         <View style={styles.container}>
             {userData.groupid == '' ? (<CreateNewGroup />) : (
@@ -127,15 +122,15 @@ export default function GroupPage() {
                         <Text style={styles.userBio}>{userGroupData.description}</Text>
 
                     </View>
-
                     <View style={styles.userContainer}>
-                        <Text style={styles.userBio}>Group members</Text>
+                        <Text style={styles.groupMembersTitle}>Group members</Text>
                         <RenderGroupMembers />
                     </View>
-                    <View>
-                        {userGroupData.matches !== [] ? (<MatchedGroupCards groupData={matchedGroupData} navigation={navigation} />
+                    <View style={styles.userContainer}>
+                        <Text style={styles.groupMembersTitle}>Matched groups</Text>
+                        {matchedGroupData.length > 0 ? (<MatchedGroupCards groupData={matchedGroupData} navigation={navigation} />
                         ) : (
-                            <Text>you dont have any matches yet</Text>
+                            <Text style={styles.groupMemberstext}>you dont have any matches yet</Text>
                         )}
                     </View>
                 </View>
@@ -160,6 +155,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 20,
+
         backgroundColor: '#fff',
     },
     headerTitle: {
@@ -205,9 +201,9 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     userImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+        width: 200,
+        height: 200,
+        borderRadius: 100,
         marginBottom: 10,
     },
     userName: {
@@ -225,17 +221,15 @@ const styles = StyleSheet.create({
         fontStyle: 'italic'
     },
     groupMembersTitle: {
-        textAlign: 'center',
         fontSize: 15,
         color: '#ff5b5b',
-        marginHorizontal: 20,
-        fontStyle: 'italic'
+        marginBottom: 10,
+        fontWeight: 'bold',
     },
     groupMemberstext: {
         textAlign: 'center',
         fontSize: 15,
         color: '#ff5b5b',
         marginHorizontal: 20,
-        fontStyle: 'italic'
     },
 });

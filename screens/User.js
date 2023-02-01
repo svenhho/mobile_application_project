@@ -5,6 +5,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FetchUserData from '../components/FetchUserData';
 import GroupCard from '../components/GroupCard';
+import CreateNewGroup from './Groups/CreateNewGroup';
 
 
 const User = ({ navigation }) => {
@@ -46,11 +47,7 @@ const User = ({ navigation }) => {
             </View>
             <View style={styles.userContainer}>
                 <Text style={styles.userName}>Your group</Text>
-                {userGroupData.name !== '' ? (
-                    <GroupCard groupData={userGroupData} navigation={navigation} />
-                ) : (<Text style={styles.userName} onPress={() => navigation.navigate('My Group')}>Log in</Text>
-                )}
-
+                <GroupCard groupData={userGroupData} navigation={navigation} />
             </View>
         </View>
     )
