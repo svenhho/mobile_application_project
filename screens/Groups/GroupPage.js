@@ -81,7 +81,7 @@ export default function GroupPage() {
         return (
             <View>
                 {userNames.map((name, index) => (
-                    <Text style={styles.underHeadline} key={index}>
+                    <Text style={styles.groupMemberstext} key={index}>
                         {name}
                     </Text>
                 ))}
@@ -116,8 +116,7 @@ export default function GroupPage() {
             {userData.groupid == '' ? (<CreateNewGroup />) : (
                 <View style={styles.container}>
                     <View style={styles.header}>
-
-                        <Text style={styles.headerTitle}>Group Profile</Text>
+                        {/* <Text style={styles.headerTitle}>Group Profile</Text> */}
                     </View>
                     <View style={styles.userContainer}>
                         <Image
@@ -126,6 +125,10 @@ export default function GroupPage() {
                         />
                         <Text style={styles.userName}>{userGroupData.name}</Text>
                         <Text style={styles.userBio}>{userGroupData.description}</Text>
+
+                    </View>
+
+                    <View style={styles.userContainer}>
                         <Text style={styles.userBio}>Group members</Text>
                         <RenderGroupMembers />
                     </View>
@@ -143,15 +146,6 @@ export default function GroupPage() {
 
 
 const styles = StyleSheet.create({
-    underHeadline: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: 'white',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        width: '60%',
-        marginBottom: 4,
-    },
     groupImage: {
         width: 100,
         height: 100,
@@ -166,16 +160,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 20,
-        backgroundColor: '#F5A623',
+        backgroundColor: '#fff',
     },
     headerTitle: {
         fontWeight: 'bold',
         fontSize: 25,
-        color: 'white',
+        color: '#ff5b5b',
     },
     container: {
         flex: 1,
-        backgroundColor: '#F5A623',
+        backgroundColor: '#fff',
         paddingTop: 40,
     },
     createGroupButton: {
@@ -206,76 +200,6 @@ const styles = StyleSheet.create({
         color: '#ff5b5b',
         fontWeight: 'bold',
     },
-    modalButtonsContainer: {
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'space-between',
-        padding: 4,
-        backgroundColor: '#ff5b5b',
-    },
-    modalCancelButton: {
-        width: '40%',
-        backgroundColor: '#ff5b5b',
-        padding: 12,
-        borderRadius: 24,
-        alignItems: 'center',
-    },
-    modalCancelButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-    },
-    modalCreateButton: {
-        width: '40%',
-        backgroundColor: '#fff',
-        padding: 12,
-        borderRadius: 24,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#ff5b5b',
-    },
-    modalCreateButtonText: {
-        color: '#ff5b5b',
-        fontWeight: 'bold',
-    },
-    addMemberContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-    },
-    addMemberInput: {
-        width: '80%',
-        height: 48,
-        borderWidth: 1,
-        borderColor: '#ff5b5b',
-        backgroundColor: '#fff',
-        marginVertical: 8,
-        padding: 8,
-        borderRadius: 24,
-    },
-
-    groupMemberContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-        marginLeft: 40,
-    },
-
-    removeButton: {
-        width: '20%',
-        height: 48,
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    cancelButton: {
-        width: '80%',
-        height: 48,
-        backgroundColor: '#aaa',
-        borderRadius: 24,
-        marginVertical: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     userContainer: {
         alignItems: 'center',
         marginTop: 50,
@@ -288,13 +212,30 @@ const styles = StyleSheet.create({
     },
     userName: {
         fontSize: 25,
-        color: 'white',
+        color: '#ff5b5b',
         marginBottom: 10,
+        fontWeight: 'bold',
     },
+
     userBio: {
         textAlign: 'center',
         fontSize: 15,
-        color: 'white',
+        color: '#ff5b5b',
         marginHorizontal: 20,
+        fontStyle: 'italic'
+    },
+    groupMembersTitle: {
+        textAlign: 'center',
+        fontSize: 15,
+        color: '#ff5b5b',
+        marginHorizontal: 20,
+        fontStyle: 'italic'
+    },
+    groupMemberstext: {
+        textAlign: 'center',
+        fontSize: 15,
+        color: '#ff5b5b',
+        marginHorizontal: 20,
+        fontStyle: 'italic'
     },
 });

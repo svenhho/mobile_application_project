@@ -34,9 +34,8 @@ const User = ({ navigation }) => {
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Settings')}
                 >
-                    <Ionicons name={'settings'} size={25} color={'white'} />
+                    <Ionicons name={'settings'} size={35} color={'gray'} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>User Profile</Text>
             </View>
             <View style={styles.userContainer}>
                 <Image
@@ -60,7 +59,7 @@ const User = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5A623',
+        backgroundColor: '#fff',
         paddingTop: 40,
     },
     header: {
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 20,
-        backgroundColor: '#F5A623',
+        backgroundColor: '#fff',
     },
     headerTitle: {
         fontWeight: 'bold',
@@ -80,14 +79,15 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     userImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
+        width: 200,
+        height: 200,
+        borderRadius: 100,
         marginBottom: 10,
     },
     userName: {
-        fontSize: 25,
-        color: 'white',
+        fontSize: 32,
+        color: '#ff5b5b',
+        fontWeight: 'bold',
         marginBottom: 10,
     },
     userBio: {
