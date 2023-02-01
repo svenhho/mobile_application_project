@@ -2,11 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
+import { useNavigation } from '@react-navigation/native';
 import FetchUserData from '../../components/FetchUserData';
 import CreateNewGroup from '../../components/CreateNewGroup';
+import FetchGroupData from '../../components/FetchGroupData';
+import MatchedGroupCards from '../../components/MatchedGroupCards';
 
 
 export default function GroupPage() {
+
+    const navigation = useNavigation()
+
     const [userData] = FetchUserData();
     const [isPartOfGroup, setIsPartOfGroup] = useState(false)
 
@@ -26,6 +32,7 @@ export default function GroupPage() {
 
     const [currentUserGroup, setCurrentUserGroup] = useState('');
     const [userGroupData, setUserGroupData] = useState([]);
+    const allGroupsData = FetchGroupData(); // Get the data for all groups from the database
 
     const getUserGroupData = () => {
         try {
@@ -70,6 +77,7 @@ export default function GroupPage() {
             }
         }, []);
 
+
         return (
             <View>
                 {userNames.map((name, index) => (
@@ -81,7 +89,27 @@ export default function GroupPage() {
         );
     };
 
+    const [matchedGroupData, setMatchedGroupData] = useState([]);
 
+    const getMatchedGroupData = () => {
+
+        // Check if there is a match between the current group and any of the other groups
+        allGroupsData.forEach(groupData => {
+            if (userGroupData.likes && userGroupData.likes.includes(groupData.groupid) && groupData.likes.includes(userGroupData.groupid)) {
+                // If there's a match, update the "matches" fields for both groups
+                const updatedCurrentGroupData = { ...userGroupData, matches: [...userGroupData.matches, groupData.groupid] };
+                const updatedGroupData = { ...groupData, matches: [...groupData.matches, userGroupData.groupid] };
+
+                // Store the updated groups data in the matchedGroupData state
+                setMatchedGroupData([...matchedGroupData, updatedCurrentGroupData, updatedGroupData]);
+            }
+        });
+    };
+
+
+    useEffect(() => {
+        getMatchedGroupData();
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -101,10 +129,16 @@ export default function GroupPage() {
                         <Text style={styles.userBio}>Group members</Text>
                         <RenderGroupMembers />
                     </View>
+                    <View>
+                        {userGroupData.matches !== [] ? (<MatchedGroupCards groupData={matchedGroupData} navigation={navigation} />
+                        ) : (
+                            <Text>you dont have any matches yet</Text>
+                        )}
+                    </View>
                 </View>
             )}
         </View>
-    );
+    )
 }
 
 

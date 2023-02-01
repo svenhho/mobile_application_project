@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 const GroupCardEmail = ({ groupData, navigation }) => (
     <TouchableOpacity
         onPress={() => {
-            alert('hei')
+            alert(groupData.groupleader)
         }}
     >
         <View style={styles.groupContainer}>
