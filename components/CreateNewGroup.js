@@ -95,7 +95,7 @@ const CreateNewGroup = () => {
                 name: groupName,
                 description: groupDescription,
                 image: image,
-                groupLeader: groupLeader,
+                groupleader: groupLeader,
                 members: groupMembers,
                 likes: likes,
                 swiped: swiped,
