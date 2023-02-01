@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, collection } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import { useNavigation } from '@react-navigation/native';
 import FetchUserData from '../../components/FetchUserData';
@@ -15,6 +15,28 @@ export default function GroupPage() {
 
     const [userData] = FetchUserData();
     const [isPartOfGroup, setIsPartOfGroup] = useState(false)
+    const [allGroupsData, setGroupData] = useState([]);
+
+    const getGroupData = () => {
+        try {
+            const groupColRef = collection(db, 'groups');
+            onSnapshot(groupColRef, docsSnap => {
+                let allDocs = [];
+                docsSnap.forEach(doc => {
+                    allDocs.push(doc.data());
+                });
+                setGroupData(allDocs);
+            });
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        getGroupData();
+    }, []);
+
 
     const groupStatus = async () => {
         if (userData.groupid == '') {
@@ -32,8 +54,8 @@ export default function GroupPage() {
 
     const [currentUserGroup, setCurrentUserGroup] = useState('');
     const [userGroupData, setUserGroupData] = useState([]);
-    const allGroupsData = FetchGroupData(); // Get the data for all groups from the database
 
+    console.log(allGroupsData);
     const getUserGroupData = () => {
         try {
             // get current user's group
@@ -128,10 +150,8 @@ export default function GroupPage() {
                     </View>
                     <View style={styles.userContainer}>
                         <Text style={styles.groupMembersTitle}>Matched groups</Text>
-                        {matchedGroupData.length > 0 ? (<MatchedGroupCards groupData={matchedGroupData} navigation={navigation} />
-                        ) : (
-                            <Text style={styles.groupMemberstext}>you dont have any matches yet</Text>
-                        )}
+                        <MatchedGroupCards groupData={allGroupsData} navigation={navigation} />
+
                     </View>
                 </View>
             )}
