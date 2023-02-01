@@ -1,29 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { onSnapshot, collection } from 'firebase/firestore';
 import { auth, db } from '../firebase-config';
-import FetchUserData from './FetchUserData';
 
 const FetchGroupData = () => {
     const [groupData, setGroupData] = useState({});
-    const [userData] = FetchUserData();
 
-    console.log(userData);
 
-    const getGroupData = async () => {
+    const getGroupData = () => {
         try {
-            if (auth.currentUser !== null) {
-                const docRef = doc(db, "groups", userData.groupid);
-                const docSnap = await getDoc(docRef);
-                setGroupData([]);
-                const data = docSnap.data();
-                setGroupData({
-                    description: data.description,
-                    image: data.image,
-                    likes: data.likes,
-                    members: data.members,
-                    name: data.name
+            const groupColRef = collection(db, 'groups');
+            onSnapshot(groupColRef, docsSnap => {
+                let allDocs = [];
+                docsSnap.forEach(doc => {
+                    allDocs.push(doc.data());
                 });
-            }
+                setGroupData(allDocs);
+            });
+
         } catch (error) {
             console.error(error);
         }
@@ -31,7 +24,6 @@ const FetchGroupData = () => {
 
     useEffect(() => {
         getGroupData();
-        console.log(groupData);
     }, []);
     return [groupData];
 };
