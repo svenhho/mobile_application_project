@@ -77,6 +77,7 @@ export default function Register({ navigation }) {
         <Text style={styles.headerText}>Registration</Text>
       </View>
       <ScrollView style={styles.scrollView}>
+        <View style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
         <TextInput
           placeholder="Email"
           value={email}
@@ -110,8 +111,12 @@ export default function Register({ navigation }) {
           onChangeText={setAge}
           style={styles.input}
         /> */}
-        <View style={styles.modalInput}>
-          <Button title="Pick an image from camera roll" onPress={pickImage} />
+        <View>
+        <TouchableOpacity style={styles.signUp2}
+          onPress={pickImage}
+        >
+          <Text style={styles.signInText2}>Pick an image from camera roll</Text>
+        </TouchableOpacity>
           {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
         </View>
         <TextInput
@@ -128,11 +133,13 @@ export default function Register({ navigation }) {
           style={styles.input}
           secureTextEntry
         />
-        <Button
-          buttonStyle={styles.signUpButton}
-          title="Sign up"
-          onPress={handleSubmit}
-        />
+        <TouchableOpacity
+                onPress={handleSubmit}
+                style={styles.button1}
+            >
+                <Text style={styles.buttonText1}>Sign up</Text>
+            </TouchableOpacity>
+        
         <TouchableOpacity style={styles.signUp}
           onPress={() =>
             navigation.replace('Login')
@@ -140,6 +147,7 @@ export default function Register({ navigation }) {
         >
           <Text style={styles.signInText}>Already have an account? Log in</Text>
         </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
 
@@ -157,10 +165,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    width: '100%'
   },
   header: {
     alignItems: 'center',
     marginBottom: 10,
+    marginTop: 20,
   },
   headerText: {
     fontSize: 32,
@@ -169,7 +179,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   input: {
-    width: '80%',
+    width: '100%',
     height: 48,
     borderWidth: 1,
     borderColor: '#ff5b5b',
@@ -186,13 +196,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#444',
   },
-  signUpButton: {
-    backgroundColor: '#ff5a5f',
-    borderRadius: 5,
-    margin: 10,
-    alignSelf: 'center',
-    width: '80%'
-  },
+
   signUp: {
     alignSelf: 'center',
     marginTop: 10,
@@ -201,17 +205,43 @@ const styles = StyleSheet.create({
     color: '#ff5a5f',
     fontWeight: 'bold',
   },
+  signInText2: {
+    color: '#ff5a5f',
+  },
+  signUp2: {
+    alignSelf: 'center',
+    marginTop: 5,
+    marginBottom: 5,
+  },
   imageContainer: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
       height: 2
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84
+    shadowRadius: 3.84,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
+  button1: {
+    backgroundColor: '#ff5a5f',
+    width: '60%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 5,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+},
+buttonText1: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+},
 });
