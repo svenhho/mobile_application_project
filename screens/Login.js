@@ -72,11 +72,14 @@ export default function Login({ navigation }) {
                 onChangeText={text => setPassword(text)}
                 secureTextEntry
                 style={styles.input} />
-            <Button
-                buttonStyle={styles.loginButton}
-                title="Log in"
+
+            <TouchableOpacity
                 onPress={loginUser}
-            />
+                style={styles.button1}
+            >
+                <Text style={styles.buttonText1}>Log in</Text>
+            </TouchableOpacity>
+            
             <TouchableOpacity style={styles.signUp}
                 onPress={() =>
                     navigation.replace('Register')
@@ -126,5 +129,21 @@ const styles = StyleSheet.create({
     },
     signUpText: {
         color: '#ff5b5b',
+        marginTop: 10,
+    },
+    button1: {
+        backgroundColor: '#ff5a5f',
+        width: '60%',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 10,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    buttonText1: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
     },
 });
