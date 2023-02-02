@@ -6,7 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import FetchUserData from '../../components/FetchUserData';
 import CreateNewGroup from './CreateNewGroup';
 import FetchGroupData from '../../components/FetchGroupData';
-import MatchedGroupCards from '../../components/MatchedGroupCards';
+import MatchCard from '../../components/MatchCard';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default function GroupPage() {
@@ -189,9 +190,17 @@ export default function GroupPage() {
                     </View>
                     <View style={styles.userContainer}>
                         <Text style={styles.groupMembersTitle}>Matched groups</Text>
-                         
-                        <MatchedGroupCards groupData={matchedGroupData} navigation={navigation} />
-
+                        <ScrollView
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                        >
+                            {allGroupsData.map((groupData, index) => (
+                                <MatchCard
+                                    groupData={groupData}
+                                    navigation={navigation}
+                                />
+                            ))}
+                        </ScrollView>
                     </View>
                 </View>
             )}

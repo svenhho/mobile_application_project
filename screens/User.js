@@ -72,7 +72,7 @@ const User = ({ navigation }) => {
                 <Text style={styles.userName}>Your group</Text>
                 {(userNoGroup() == true) ? (
                     <View>
-                        <Text>You don't have a group</Text>
+                        <Text>You don't have a group  </Text>
                         <CreateNewGroup />
                     </View>
                 ) : (

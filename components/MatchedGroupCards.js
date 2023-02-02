@@ -32,6 +32,7 @@ const MatchedGroupCards = ({ groupData, navigation }) => {
             return (
                 <PanGestureHandler
                     key={index}
+                    useNativeDriver={true}
                     onGestureEvent={onGestureEvent}
                     onHandlerStateChange={onHandlerStateChange}
                 >
