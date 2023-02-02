@@ -205,17 +205,22 @@ export default function CreateNewGroup() {
                             onChangeText={setGroupDescription}
                             style={styles.input}
                         />
-                        <View style={{ alignItems: 'center' }}>
-                            <TouchableOpacity
-                                style={styles.pictureButton}
-                                onPress={pickImage}
-                            >
-                                <Text style={{ color: '#fff', textAlign: 'center' }}>Pick your profile picture</Text>
-                            </TouchableOpacity>
-                            {image && <Image
-                                source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
-                                style={styles.groupImage} />}
-                        </View>
+                        <TextInput
+                            placeholder=" Distance (meters)"
+                            value={radius}
+                            onChangeText={setRadius}
+                            style={styles.input}
+                            keyboardType='numeric'
+                            maxLength={6} />
+                        
+                        <MapComponent
+                            latitude={latitude}
+                            longitude={longitude}
+                            radius={radius}
+                            onUpdateLatitude={setLatitude}
+                            onUpdateLongitude={setLongitude}
+                        ></MapComponent>
+                        
                         <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
@@ -256,22 +261,20 @@ export default function CreateNewGroup() {
                                 <GroupMember member={member} onRemove={() => handleRemove(index)} />
                             ))}
                         </View>
+                        <View style={{ alignItems: 'center', marginBottom: 70 }}>
+                            <TouchableOpacity
+                                style={styles.pictureButton}
+                                onPress={pickImage}
+                            >
+                                <Text style={{ color: '#fff', textAlign: 'center' }}>Pick your profile picture</Text>
+                            </TouchableOpacity>
+                            {image && <Image
+                                source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
+                                style={styles.groupImage} />}
+                        </View>
 
-                        <TextInput
-                            placeholder=" Distance (meters)"
-                            value={radius}
-                            onChangeText={setRadius}
-                            style={styles.input}
-                            keyboardType='numeric'
-                            maxLength={6} />
-
-                        <MapComponent
-                            latitude={latitude}
-                            longitude={longitude}
-                            radius={radius}
-                            onUpdateLatitude={setLatitude}
-                            onUpdateLongitude={setLongitude}
-                        ></MapComponent>
+                        
+                        
 
 
                     </ScrollView>
