@@ -20,7 +20,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#d6d7da',
         alignItems: 'center',
-        padding: 10
+        padding: 10,
+        marginRight: 10,
+
     },
     groupImage: {
         width: 50,
