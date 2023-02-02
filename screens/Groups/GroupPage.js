@@ -116,6 +116,7 @@ export default function GroupPage() {
     const [matchedGroupData, setMatchedGroupData] = useState([]);
 
     const getMatchedGroupData = () => {
+        /** 
         const allGroups = allGroupsData;
         const length = allGroupsData.length;
         console.log("THIS IS ALL THE GROUPS", allGroups);
@@ -152,16 +153,20 @@ export default function GroupPage() {
             }
 
         }
-        /** 
+        */
         allGroupsData.forEach(groupData => {
             if (userGroupData.likes && userGroupData.likes.includes(groupData.name) && groupData.likes.includes(userGroupData.name)) {
-                const updatedCurrentGroupData = { ...userGroupData, matches: [...userGroupData.matches, groupData.groupid] };
-                const updatedGroupData = { ...groupData, matches: [...groupData.matches, userGroupData.groupid] };
-
-                setMatchedGroupData(prevMatchedGroupData => [...prevMatchedGroupData, updatedCurrentGroupData, updatedGroupData]);
+                addToMatchArray();
+                //const updatedCurrentGroupData = { ...userGroupData, matches: [...userGroupData.matches, groupData.name] };
+                //const updatedGroupData = { ...groupData, matches: [...groupData.matches, userGroupData.name] };
+                //setMatchedGroupData(prevMatchedGroupData => [...prevMatchedGroupData, updatedCurrentGroupData, updatedGroupData]);
             }
-        });*/
+        });
     };
+
+    const addToMatchArray = (newValue) => {
+        setMatchedGroupData([...matchedGroupData, newValue]);
+    }
 
 
     useEffect(() => {
@@ -194,8 +199,9 @@ export default function GroupPage() {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            {allGroupsData.map((groupData, index) => (
+                            {matchedGroupData.map((groupData, index) => (
                                 <MatchCard
+                                    key={index}
                                     groupData={groupData}
                                     navigation={navigation}
                                 />
