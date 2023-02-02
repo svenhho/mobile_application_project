@@ -22,6 +22,7 @@ export default function Settings() {
 
     return (
         <View styles={styles.container}>
+            <Text> {auth.currentUser?.email}</Text>
             <TouchableOpacity
                 onPress={signOutUser}
                 style={styles.button}

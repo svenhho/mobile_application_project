@@ -128,6 +128,7 @@ export default function GroupPage() {
     useEffect(() => {
         getMatchedGroupData();
     }, []);
+
     return (
         <View style={styles.container}>
             {userData.groupid == '' ? (<CreateNewGroup />) : (

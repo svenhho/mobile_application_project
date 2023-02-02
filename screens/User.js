@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { db } from '../firebase-config';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { db, auth } from '../firebase-config';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FetchUserData from '../components/FetchUserData';
 import GroupCard from '../components/GroupCard';
@@ -9,25 +9,43 @@ import CreateNewGroup from './Groups/CreateNewGroup';
 
 
 const User = ({ navigation }) => {
-    const [userData] = FetchUserData();
-    const [userGroupData, setUserGroupData] = useState([]);
+    const docRef = doc(db, "users", auth.currentUser?.email);
 
-    const getUserGroupData = () => {
+    const [userData, setUserData] = useState([]);
+    const [userGroupData, setUserGroupData] = useState([]);
+    console.log(userGroupData);
+
+    const getUserData = async () => {
         try {
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                setUserData(docSnap.data());
+            } else {
+                console.log("Document does not exist")
+            }
+
             if (userData.groupid) {
                 const groupDocRef = doc(db, 'groups', userData.groupid);
-                onSnapshot(groupDocRef, snapshot => {
-                    setUserGroupData(snapshot.data());
-                });
+                const groupDocSnap = await getDoc(groupDocRef);
+
+                if (groupDocSnap.exists()) {
+                    setUserGroupData(groupDocSnap.data());
+                } else {
+                    console.log("Document does not exist")
+                }
             }
+
         } catch (error) {
-            console.error(error);
+            console.log(error)
         }
     };
-    useEffect(() => {
-        getUserGroupData();
-    }, [userGroupData]);
 
+
+    useEffect(() => {
+        getUserData();
+    }, []);
+
+    console.log(userGroupData);
 
     return (
         <View style={styles.container}>
@@ -47,9 +65,14 @@ const User = ({ navigation }) => {
             </View>
             <View style={styles.userContainer}>
                 <Text style={styles.userName}>Your group</Text>
-                <GroupCard groupData={userGroupData} navigation={navigation} />
+                {(userGroupData !== []) ? (
+
+                    <GroupCard groupData={userGroupData} navigation={navigation} />
+                ) : (
+                    <Text>You dont have a group</Text>
+                )}
             </View>
-        </View>
+        </View >
     )
 }
 
