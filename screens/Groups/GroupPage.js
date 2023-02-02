@@ -55,7 +55,7 @@ export default function GroupPage() {
     const [currentUserGroup, setCurrentUserGroup] = useState('');
     const [userGroupData, setUserGroupData] = useState([]);
 
-    console.log(allGroupsData);
+    //console.log(allGroupsData);
 
     const getUserGroupData = () => {
         try {
@@ -115,14 +115,51 @@ export default function GroupPage() {
     const [matchedGroupData, setMatchedGroupData] = useState([]);
 
     const getMatchedGroupData = () => {
+        const allGroups = allGroupsData;
+        const length = allGroupsData.length;
+        console.log("THIS IS ALL THE GROUPS", allGroups);
+        console.log("THiS IS THE LENGHT OF THAT GROUP", length);
+        console.log("User group data", userGroupData);
+        const myLikes = userGroupData.likes;
+        const myNameId = userGroupData.name;
+        const myLikesLength = myLikes.length;
+        console.log("mylikes", myLikes);
+        console.log("my name ID", myNameId);
+        console.log('my length', myLikesLength);
+        // iterate through all the groups
+        for (let i = 0; i < length; i++){
+            
+            console.log("object", allGroups[i]);
+            const groupObjectName = allGroups[i].name;
+            console.log(i, groupObjectName);
+            // make sure we dont like our own object
+            if(groupObjectName != myNameId){
+                const objectLikes = allGroups[i].likes;
+                console.log(objectLikes);
+                // check if my group name ID is in the object likes list
+                for (j = 0; j < objectLikes.length; j++){
+                    if(objectLikes[j] == myNameId){
+                        // check if my list have the groupObjectName
+                        for (k = 0; k < myLikesLength; k++){
+                            if(myLikesLength[k] == groupObjectName){
+                                console.log("This is a match", groupObjectName);
+                                setMatchedGroupData([...matchedGroupData, groupObjectName]);
+                            }
+                        } 
+                    }
+                }
+            }
+
+        }
+        /** 
         allGroupsData.forEach(groupData => {
-            if (userGroupData.likes && userGroupData.likes.includes(groupData.groupid) && groupData.likes.includes(userGroupData.groupid)) {
+            if (userGroupData.likes && userGroupData.likes.includes(groupData.name) && groupData.likes.includes(userGroupData.name)) {
                 const updatedCurrentGroupData = { ...userGroupData, matches: [...userGroupData.matches, groupData.groupid] };
                 const updatedGroupData = { ...groupData, matches: [...groupData.matches, userGroupData.groupid] };
 
                 setMatchedGroupData(prevMatchedGroupData => [...prevMatchedGroupData, updatedCurrentGroupData, updatedGroupData]);
             }
-        });
+        });*/
     };
 
 
@@ -152,7 +189,8 @@ export default function GroupPage() {
                     </View>
                     <View style={styles.userContainer}>
                         <Text style={styles.groupMembersTitle}>Matched groups</Text>
-                        <MatchedGroupCards groupData={allGroupsData} navigation={navigation} />
+                         
+                        <MatchedGroupCards groupData={matchedGroupData} navigation={navigation} />
 
                     </View>
                 </View>
