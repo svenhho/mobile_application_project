@@ -18,7 +18,8 @@ export default function CreateNewGroup() {
     const groupLeader = auth.currentUser?.email;
     const [groupMembers, setGroupMembers] = useState([]);
     const likes = [];
-    const swiped = []
+    const swiped = [];
+    const matches = [];
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [radius, setRadius] = useState(2000);
@@ -100,6 +101,7 @@ export default function CreateNewGroup() {
                 latitude: latitude,
                 longitude: longitude,
                 radius: radius,
+                matches: matches,
             });
             const docSnap = await getDoc(groupDocRef);
             const data = docSnap.data();

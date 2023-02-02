@@ -44,7 +44,17 @@ export default function Register({ navigation }) {
   };
 
   const handleSubmit = async () => {
+    if (!email || !firstName || !lastName || !password || !confirmPassword) {
+      setError('Please fill out all fields');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Password does not match');
+      return;
+    }
     try {
+
       // Create the user with email and password
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
       const userDocRef = doc(db, "users", email);
@@ -80,6 +90,8 @@ export default function Register({ navigation }) {
             onChangeText={setEmail}
             style={styles.input}
           />
+          <Text style={styles.error}>{error === 'Please fill out all fields' && !email ? 'Email is required' : ''}</Text>
+
           <TextInput
             placeholder="First name"
             value={firstName}

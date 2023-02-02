@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { db, auth } from '../firebase-config';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FetchUserData from '../components/FetchUserData';
 import GroupCard from '../components/GroupCard';
 import CreateNewGroup from './Groups/CreateNewGroup';
 
@@ -17,22 +16,17 @@ const User = ({ navigation }) => {
 
     const getUserData = async () => {
         try {
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserData(docSnap.data());
-            } else {
-                console.log("Document does not exist")
-            }
+            // get current user's group
+            const userDocRef = doc(db, 'users', auth.currentUser?.email);
+            onSnapshot(userDocRef, snapshot => {
+                setUserData(snapshot.data());
+            });
 
             if (userData.groupid) {
                 const groupDocRef = doc(db, 'groups', userData.groupid);
-                const groupDocSnap = await getDoc(groupDocRef);
-
-                if (groupDocSnap.exists()) {
-                    setUserGroupData(groupDocSnap.data());
-                } else {
-                    console.log("Document does not exist")
-                }
+                onSnapshot(groupDocRef, snapshot => {
+                    setUserGroupData(snapshot.data());
+                });
             }
 
         } catch (error) {
@@ -69,7 +63,10 @@ const User = ({ navigation }) => {
 
                     <GroupCard groupData={userGroupData} navigation={navigation} />
                 ) : (
-                    <Text>You dont have a group</Text>
+                    <View>
+                        <Text>You don't have a group</Text>
+                        <CreateNewGroup />
+                    </View>
                 )}
             </View>
         </View >
