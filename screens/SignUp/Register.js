@@ -3,7 +3,6 @@ import {
   Text, Image, TextInput, TouchableOpacity, Button, View, StyleSheet, SafeAreaView,
   ScrollView
 } from 'react-native'
-import { SelectList } from 'react-native-dropdown-select-list'
 import { doc, setDoc } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -14,8 +13,6 @@ export default function Register({ navigation }) {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('');
-  const [age, setAge] = useState('');
   const [image, setImage] = useState('');
   const groupid = '';
   const [password, setPassword] = useState('');
@@ -46,7 +43,17 @@ export default function Register({ navigation }) {
   };
 
   const handleSubmit = async () => {
+    if (!email || !firstName || !lastName || !password || !confirmPassword) {
+      setError('Please fill out all fields');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Password does not match');
+      return;
+    }
     try {
+
       // Create the user with email and password
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
       const userDocRef = doc(db, "users", email);
@@ -57,8 +64,6 @@ export default function Register({ navigation }) {
         email: email,
         firstname: firstName,
         lastname: lastName,
-        gender: gender,
-        age: age,
         image: image,
         userid: user.uid,
         groupid: groupid,
@@ -77,76 +82,61 @@ export default function Register({ navigation }) {
         <Text style={styles.headerText}>Registration</Text>
       </View>
       <ScrollView style={styles.scrollView}>
-        <View style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="First name"
-          value={firstName}
-          onChangeText={setFirstName}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Last name"
-          value={lastName}
-          onChangeText={setLastName}
-          style={styles.input}
-        />
-        {/* <SelectList
-          placeholder="Gender"
-          setSelected={(val) => setGender(val)}
-          data={genderOptions}
-          style={styles.selectList}
-          search={false}
-
-          save="value"
-        />
-        <TextInput
-          placeholder="Age"
-          value={age}
-          onChangeText={setAge}
-          style={styles.input}
-        /> */}
-        <View>
-        <TouchableOpacity style={styles.signUp2}
-          onPress={pickImage}
-        >
-          <Text style={styles.signInText2}>Pick an image from camera roll</Text>
-        </TouchableOpacity>
-          {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
-        </View>
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          style={styles.input}
-          secureTextEntry
-        />
-        <TextInput
-          placeholder="Confirm password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          style={styles.input}
-          secureTextEntry
-        />
-        <TouchableOpacity
-                onPress={handleSubmit}
-                style={styles.button1}
+        <View style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+          <TextInput
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="First name"
+            value={firstName}
+            onChangeText={setFirstName}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Last name"
+            value={lastName}
+            onChangeText={setLastName}
+            style={styles.input}
+          />
+          <View>
+            <TouchableOpacity style={styles.signUp2}
+              onPress={pickImage}
             >
-                <Text style={styles.buttonText1}>Sign up</Text>
+              <Text style={styles.signInText2}>Pick an image from camera roll</Text>
             </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.signUp}
-          onPress={() =>
-            navigation.replace('Login')
-          }
-        >
-          <Text style={styles.signInText}>Already have an account? Log in</Text>
-        </TouchableOpacity>
+            {image && <Image source={{ uri: image }} style={styles.imageContainer} />}
+          </View>
+          <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            style={styles.input}
+            secureTextEntry
+          />
+          <TextInput
+            placeholder="Confirm password"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            style={styles.input}
+            secureTextEntry
+          />
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={styles.button1}
+          >
+            <Text style={styles.buttonText1}>Sign up</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.signUp}
+            onPress={() =>
+              navigation.replace('Login')
+            }
+          >
+            <Text style={styles.signInText}>Already have an account? Log in</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -238,10 +228,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 'auto',
     marginRight: 'auto',
-},
-buttonText1: {
+  },
+  buttonText1: {
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
-},
+  },
 });

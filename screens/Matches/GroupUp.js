@@ -4,6 +4,7 @@ import { doc, getDoc, collection, getDocs, onSnapshot, updateDoc } from 'firebas
 import { auth, db } from '../../firebase-config';
 import SwipeCards from 'react-native-swipe-cards';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import CreateNewGroup from '../Groups/CreateNewGroup';
 
 
 const GroupUpPage = () => {
@@ -11,6 +12,7 @@ const GroupUpPage = () => {
     const [currentUserGroup, setCurrentUserGroup] = useState('');
     const filteredGroups = groupData.filter(group => !group.swiped || !group.swiped.includes(currentUserGroup));
     const currentUserData = groupData.find(group => group.name === currentUserGroup);
+    console.log(currentUserGroup);
 
     const [filteredGroupsDistance, setFilteredGroupDistance] = useState([]);
     const addToArray = (newValue) => {
@@ -22,17 +24,17 @@ const GroupUpPage = () => {
     console.log("currentuserdata", currentUserData);
     console.log("DISTANSE");
     console.log(filteredGroupsDistance);
-    
-    
-    
+
+
+
     const checkDistance = async () => {
         const latitude1 = currentUserData.latitude;
         const longitude1 = currentUserData.longitude;
         const userRadius = parseInt(currentUserData.radius);
-        for (let i=0; i < filteredGroups.length; i++) {
+        for (let i = 0; i < filteredGroups.length; i++) {
             let latitude2 = filteredGroups[i].latitude;
             let longitude2 = filteredGroups[i].longitude;
-            
+
             const radiansLatitude1 = latitude1 * Math.PI / 180;
             const radiansLongitude1 = longitude1 * Math.PI / 180;
             const radiansLatitude2 = latitude2 * Math.PI / 180;
@@ -42,10 +44,10 @@ const GroupUpPage = () => {
             const c = Math.acos(a);
             const distance = c * 6371 * 1000;
 
-            
+
             console.log(distance);
             console.log(userRadius);
-            if (distance < userRadius){
+            if (distance < userRadius) {
                 addToArray(filteredGroups[i]);
             }
         }
@@ -54,7 +56,7 @@ const GroupUpPage = () => {
     useLayoutEffect(() => {
         checkDistance();
     }, []);
-    
+
 
     const getGroupData = () => {
         try {
@@ -137,18 +139,20 @@ const GroupUpPage = () => {
         );
     };
 
+
+
     return (
         <View style={styles.container}>
-            {groupData.length > 0 && filteredGroupsDistance.length > 0 ? (
-                <SwipeCards
-                    cards={filteredGroupsDistance}
-                    renderCard={(group) => <Card group={group} />}
-                    handleYup={(group) => handleLike(group)}
-                    handleNope={(group) => handleDislike(group)}
-                />
-            ) : (
-                <Text style={styles.emptyMessage}>No more groups to group up with</Text>
+            {currentUserGroup == '' ? (<CreateNewGroup />) : (<SwipeCards
+                useNativeDriver={true}
+                cards={filteredGroupsDistance}
+                renderCard={(group) => <Card group={group} />}
+                handleYup={(group) => handleLike(group)}
+                handleNope={(group) => handleDislike(group)}
+            />
+
             )}
+
         </View>
     );
 };
