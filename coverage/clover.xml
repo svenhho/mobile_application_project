@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1675244646965" clover="3.2.0">
-  <project timestamp="1675244646966" name="All files">
+<coverage generated="1675255646113" clover="3.2.0">
+  <project timestamp="1675255646113" name="All files">
     <metrics statements="419" coveredstatements="55" conditionals="91" coveredconditionals="3" methods="124" coveredmethods="6" elements="634" coveredelements="64" complexity="0" loc="419" ncloc="419" packages="7" files="22" classes="22"/>
     <package name="mobile_application_project">
       <metrics statements="10" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -285,8 +285,8 @@
         <line num="55" count="4" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
         <line num="72" count="0" type="stmt"/>
-        <line num="82" count="1" type="stmt"/>
-        <line num="93" count="3" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="96" count="3" type="stmt"/>
       </file>
       <file name="Settings.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\Settings.js">
         <metrics statements="8" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
@@ -476,8 +476,8 @@
         <line num="67" count="0" type="stmt"/>
         <line num="70" count="0" type="stmt"/>
         <line num="74" count="2" type="stmt"/>
-        <line num="138" count="0" type="stmt"/>
-        <line num="150" count="4" type="stmt"/>
+        <line num="145" count="0" type="stmt"/>
+        <line num="158" count="4" type="stmt"/>
       </file>
       <file name="signupValidation.js" path="C:\Users\svenh\italy_code\mobile_application_project\screens\SignUp\signupValidation.js">
         <metrics statements="19" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="4" coveredmethods="0"/>
