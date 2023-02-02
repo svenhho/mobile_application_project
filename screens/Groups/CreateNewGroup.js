@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Image, View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { setDoc, collection, getDocs, doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,7 +10,6 @@ import FetchUserData from '../../components/FetchUserData';
 import MapComponent from '../../components/MapComponent';
 export default function CreateNewGroup() {
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
     const [image, setImage] = useState('');
@@ -76,7 +75,7 @@ export default function CreateNewGroup() {
     const userColRef = collection(db, 'users');
 
     const handleCloseModal = () => {
-        setIsModalVisible(false);
+        
         setGroupName('');
         setGroupDescription('');
         setGroupMemberEmail('');
@@ -118,7 +117,7 @@ export default function CreateNewGroup() {
             });
 
 
-            setIsModalVisible(false);
+            
             handleCloseModal();
             // console.log(groupMembers);
             setIsPartOfGroup(true);
@@ -182,30 +181,24 @@ export default function CreateNewGroup() {
 
     return (
         <View style={styles.modalContainer}>
-            <Text style={{ textAlign: 'center', fontSize: 16 }}>Create a new group</Text>
+            <Text style={styles.title}>Create a new group</Text>
+
             <TextInput
                 style={{ marginLeft: 40 }}
                 placeholder="Group name"
                 value={groupName}
                 onChangeText={setGroupName}
                 autoCapitalize="none" />
+
             <TextInput
                 style={{ marginLeft: 40, marginRight: 40 }}
                 placeholder="Group description"
                 value={groupDescription}
                 onChangeText={setGroupDescription}
                 autoCapitalize="none" />
-            <View style={{ alignItems: 'center' }}>
-                <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={pickImage}
-                >
-                    <Text style={{ color: '#ff5b5b' }}>Pick an image from camera roll</Text>
-                </TouchableOpacity>
-                {image && <Image
-                    source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
-                    style={styles.groupImage} />}
-            </View>
+
+            
+
             <View style={{
                 flexDirection: 'row',
                 marginLeft: 40,
@@ -252,79 +245,70 @@ export default function CreateNewGroup() {
                 onChangeText={setRadius}
                 autoCapitalize="none"
                 keyboardType='numeric'
-                maxLength={6} />
-
+                maxLength={7} />
+            
+            
+            <View style={{height: 250}}>
             <MapComponent
                 latitude={latitude}
                 longitude={longitude}
                 radius={radius}
                 onUpdateLatitude={setLatitude}
                 onUpdateLongitude={setLongitude}
-            ></MapComponent>
-
-            <View style={styles.modalButtonsContainer}>
-                <TouchableOpacity
-                    style={styles.modalCancelButton}
-                    onPress={() => handleCloseModal()}
-                >
-                    <Text style={styles.modalCancelButtonText}>Cancel</Text>
+            ></MapComponent></View>
+            <View style={{ alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
+                <TouchableOpacity onPress={pickImage}>
+                    <Text style={{ color: '#ff5b5b' }}>Pick an image from camera roll</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.modalCreateButton}
-                    onPress={async () => {
-                        if (groupName !== ''
-                            && groupDescription !== ''
-                            && groupMembers !== []) {
-                            handleCreateGroup();
-                        } else {
-                            console.log('All fields must be ...');
-                        }
-                    }}
-                >
-                    <Text style={styles.modalCreateButtonText}>Create</Text>
-                </TouchableOpacity>
+                {image && <Image
+                    source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
+                    style={styles.groupImage} />}
             </View>
+            
+            <TouchableOpacity
+                style={styles.button1}
+                onPress={async () => {
+                    if (groupName !== ''
+                        && groupDescription !== ''
+                        && groupMembers !== []) {
+                        handleCreateGroup();
+                    } else {
+                        console.log('All fields must be ...');
+                    }
+                }}
+            >
+                <Text style={styles.buttonText1}>Create group</Text>
+            </TouchableOpacity>
         </View>
     );
 
 }
 
 const styles = StyleSheet.create({
-    underHeadline: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color: 'white',
+    button1: {
+        backgroundColor: '#ff5a5f',
+        width: '60%',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginBottom: 10,
         marginLeft: 'auto',
         marginRight: 'auto',
-        width: '60%',
-        marginBottom: 4,
+    },
+    buttonText1: {
+        color: 'white',
+        fontWeight: '700',
+        fontSize: 16,
     },
     groupImage: {
         width: 100,
         height: 100,
         borderRadius: 75,
-        marginBottom: 10,
         marginTop: 10,
         marginLeft: 'auto',
         marginRight: 'auto',
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: 20,
-        backgroundColor: '#F5A623',
-    },
-    headerTitle: {
-        fontWeight: 'bold',
-        fontSize: 25,
-        color: 'white',
-    },
-    container: {
-        flex: 1,
-        backgroundColor: '#F5A623',
-        paddingTop: 40,
-    },
+
     createGroupButton: {
         backgroundColor: '#ff5a5f',
         width: '60%',
@@ -336,73 +320,20 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
     },
     modalContainer: {
-        position: 'absolute',
-        top: 60,
-        left: 0,
-        right: 0,
-        bottom: 0,
         backgroundColor: '#fff',
-        // padding: 16,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        flex: 1,
+        marginTop: 20,
+        width: '100%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        flexDirection: 'column',
 
     },
     title: {
-        fontSize: 32,
-        marginBottom: 48,
-        color: '#ff5b5b',
+        textAlign: 'center',
+        fontSize: 20,
         fontWeight: 'bold',
     },
-    modalButtonsContainer: {
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'space-between',
-        padding: 4,
-        backgroundColor: '#ff5b5b',
-    },
-    modalCancelButton: {
-        width: '40%',
-        backgroundColor: '#ff5b5b',
-        padding: 12,
-        borderRadius: 24,
-        alignItems: 'center',
-    },
-    modalCancelButtonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-    },
-    modalCreateButton: {
-        width: '40%',
-        backgroundColor: '#fff',
-        padding: 12,
-        borderRadius: 24,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#ff5b5b',
-    },
-    modalCreateButtonText: {
-        color: '#ff5b5b',
-        fontWeight: 'bold',
-    },
-    addMemberContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
-    },
-    addMemberInput: {
-        width: '80%',
-        height: 48,
-        borderWidth: 1,
-        borderColor: '#ff5b5b',
-        backgroundColor: '#fff',
-        marginVertical: 8,
-        padding: 8,
-        borderRadius: 24,
-    },
-
     groupMemberContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -417,36 +348,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
     },
-    cancelButton: {
-        width: '80%',
-        height: 48,
-        backgroundColor: '#aaa',
-        borderRadius: 24,
-        marginVertical: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    userContainer: {
-        alignItems: 'center',
-        marginTop: 50,
-    },
-    userImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        marginBottom: 10,
-    },
-    userName: {
-        fontSize: 25,
-        color: 'white',
-        marginBottom: 10,
-    },
-    userBio: {
-        textAlign: 'center',
-        fontSize: 15,
-        color: 'white',
-        marginHorizontal: 20,
-    },
+
 });
 
 
