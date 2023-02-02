@@ -504,7 +504,7 @@ FN:46,(anonymous_6)
 FN:49,(anonymous_7)
 FN:67,(anonymous_8)
 FN:72,(anonymous_9)
-FN:81,(anonymous_10)
+FN:84,(anonymous_10)
 FNF:11
 FNH:3
 FNDA:4,Login
@@ -543,8 +543,8 @@ DA:51,0
 DA:55,4
 DA:67,0
 DA:72,0
-DA:82,1
-DA:93,3
+DA:85,1
+DA:96,3
 LF:27
 LH:11
 BRDA:10,0,0,0
@@ -860,7 +860,7 @@ SF:screens\SignUp\Register.js
 FN:13,Register
 FN:31,(anonymous_1)
 FN:48,(anonymous_2)
-FN:137,(anonymous_3)
+FN:144,(anonymous_3)
 FNF:4
 FNH:1
 FNDA:2,Register
@@ -892,14 +892,14 @@ DA:56,0
 DA:67,0
 DA:70,0
 DA:74,2
-DA:138,0
-DA:150,4
+DA:145,0
+DA:158,4
 LF:27
 LH:15
 BRDA:42,0,0,0
 BRDA:42,0,1,0
-BRDA:115,1,0,2
-BRDA:115,1,1,0
+BRDA:120,1,0,2
+BRDA:120,1,1,0
 BRF:4
 BRH:1
 end_of_record

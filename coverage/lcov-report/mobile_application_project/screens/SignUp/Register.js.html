@@ -280,7 +280,37 @@
 <a name='L215'></a><a href='#L215'>215</a>
 <a name='L216'></a><a href='#L216'>216</a>
 <a name='L217'></a><a href='#L217'>217</a>
-<a name='L218'></a><a href='#L218'>218</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -417,7 +447,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -430,6 +468,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -576,6 +636,7 @@ export default function Register({ navigation }) {
         &lt;Text style={styles.headerText}&gt;Registration&lt;/Text&gt;
       &lt;/View&gt;
       &lt;ScrollView style={styles.scrollView}&gt;
+        &lt;View style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}&gt;
         &lt;TextInput
           placeholder="Email"
           value={email}
@@ -609,8 +670,12 @@ export default function Register({ navigation }) {
           onChangeText={setAge}
           style={styles.input}
         /&gt; */}
-        &lt;View style={styles.modalInput}&gt;
-          &lt;Button title="Pick an image from camera roll" onPress={pickImage} /&gt;
+        &lt;View&gt;
+        &lt;TouchableOpacity style={styles.signUp2}
+          onPress={pickImage}
+        &gt;
+          &lt;Text style={styles.signInText2}&gt;Pick an image from camera roll&lt;/Text&gt;
+        &lt;/TouchableOpacity&gt;
           {image &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;Image source={{ uri: image }} style={styles.imageContainer} /&gt;}</span>
         &lt;/View&gt;
         &lt;TextInput
@@ -627,11 +692,13 @@ export default function Register({ navigation }) {
           style={styles.input}
           secureTextEntry
         /&gt;
-        &lt;Button
-          buttonStyle={styles.signUpButton}
-          title="Sign up"
-          onPress={handleSubmit}
-        /&gt;
+        &lt;TouchableOpacity
+                onPress={handleSubmit}
+                style={styles.button1}
+            &gt;
+                &lt;Text style={styles.buttonText1}&gt;Sign up&lt;/Text&gt;
+            &lt;/TouchableOpacity&gt;
+        
         &lt;TouchableOpacity style={styles.signUp}
           onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt;
 <span class="cstat-no" title="statement not covered" >            navigation.replace('Login')</span>
@@ -639,6 +706,7 @@ export default function Register({ navigation }) {
         &gt;
           &lt;Text style={styles.signInText}&gt;Already have an account? Log in&lt;/Text&gt;
         &lt;/TouchableOpacity&gt;
+        &lt;/View&gt;
       &lt;/ScrollView&gt;
     &lt;/SafeAreaView&gt;
 &nbsp;
@@ -656,10 +724,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+    width: '100%'
   },
   header: {
     alignItems: 'center',
     marginBottom: 10,
+    marginTop: 20,
   },
   headerText: {
     fontSize: 32,
@@ -668,7 +738,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   input: {
-    width: '80%',
+    width: '100%',
     height: 48,
     borderWidth: 1,
     borderColor: '#ff5b5b',
@@ -685,13 +755,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#444',
   },
-  signUpButton: {
-    backgroundColor: '#ff5a5f',
-    borderRadius: 5,
-    margin: 10,
-    alignSelf: 'center',
-    width: '80%'
-  },
+&nbsp;
   signUp: {
     alignSelf: 'center',
     marginTop: 10,
@@ -700,19 +764,45 @@ const styles = StyleSheet.create({
     color: '#ff5a5f',
     fontWeight: 'bold',
   },
+  signInText2: {
+    color: '#ff5a5f',
+  },
+  signUp2: {
+    alignSelf: 'center',
+    marginTop: 5,
+    marginBottom: 5,
+  },
   imageContainer: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginTop: 20,
+    marginTop: 10,
+    marginBottom: 10,
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
       height: 2
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84
+    shadowRadius: 3.84,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
+  button1: {
+    backgroundColor: '#ff5a5f',
+    width: '60%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 5,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+},
+buttonText1: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+},
 });
 &nbsp;</pre></td></tr></table></pre>
 
@@ -721,7 +811,7 @@ const styles = StyleSheet.create({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-01T09:44:06.837Z
+                at 2023-02-01T12:47:26.000Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
