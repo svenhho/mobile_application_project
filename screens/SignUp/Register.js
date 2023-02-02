@@ -3,7 +3,6 @@ import {
   Text, Image, TextInput, TouchableOpacity, Button, View, StyleSheet, SafeAreaView,
   ScrollView
 } from 'react-native'
-import { SelectList } from 'react-native-dropdown-select-list'
 import { doc, setDoc } from '@firebase/firestore';
 import { auth, db } from '../../firebase-config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';

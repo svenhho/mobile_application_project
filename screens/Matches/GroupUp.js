@@ -19,6 +19,12 @@ const GroupUpPage = () => {
         setFilteredGroupDistance([...filteredGroupsDistance, newValue]);
     }
 
+    console.log('groupData: ' + groupData);
+    console.log('currentUserGroup: ' + currentUserGroup);
+    console.log('filteredGroups: ' + filteredGroups);
+    console.log('currentUserData: ' + currentUserData);
+    console.log('filteredGroupsDistance: ' + filteredGroupsDistance);
+
     const checkDistance = async () => {
         const latitude1 = currentUserData.latitude;
         const longitude1 = currentUserData.longitude;
@@ -131,9 +137,12 @@ const GroupUpPage = () => {
         );
     };
 
+
+
     return (
         <View style={styles.container}>
             {currentUserGroup == '' ? (<CreateNewGroup />) : (<SwipeCards
+                useNativeDriver={true}
                 cards={filteredGroupsDistance}
                 renderCard={(group) => <Card group={group} />}
                 handleYup={(group) => handleLike(group)}

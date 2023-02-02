@@ -9,12 +9,14 @@ import CreateNewGroup from './Groups/CreateNewGroup';
 
 const User = ({ navigation }) => {
     const docRef = doc(db, "users", auth.currentUser?.email);
-
     const [userData, setUserData] = useState([]);
     const [userGroupData, setUserGroupData] = useState([]);
     console.log(userGroupData);
+    console.log(userData);
+
 
     const getUserData = async () => {
+
         try {
             // get current user's group
             const userDocRef = doc(db, 'users', auth.currentUser?.email);
@@ -41,6 +43,15 @@ const User = ({ navigation }) => {
 
     console.log(userGroupData);
 
+    const userNoGroup = () => {
+        if (userGroupData == []) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    console.log('userData: ' + userData);
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -59,14 +70,16 @@ const User = ({ navigation }) => {
             </View>
             <View style={styles.userContainer}>
                 <Text style={styles.userName}>Your group</Text>
-                {(userGroupData !== []) ? (
-
-                    <GroupCard groupData={userGroupData} navigation={navigation} />
-                ) : (
+                {(userNoGroup() == true) ? (
                     <View>
                         <Text>You don't have a group</Text>
                         <CreateNewGroup />
                     </View>
+                ) : (
+                    <GroupCard groupData={userGroupData} navigation={navigation} />
+
+
+
                 )}
             </View>
         </View >

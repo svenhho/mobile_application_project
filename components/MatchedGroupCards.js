@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import GroupCardEmail from './GroupCardEmail';
+import MatchCard from './MatchCard';
 
 const styles = StyleSheet.create({
     container: {
@@ -25,23 +25,24 @@ const MatchedGroupCards = ({ groupData, navigation }) => {
         }
     };
 
+    const onGestureEvent = Animated.event([{ nativeEvent: { translationX: pan.x } }], { useNativeDriver: false });
+
     const renderCards = () => {
         return groupData.map((group, index) => {
             return (
                 <PanGestureHandler
                     key={index}
-                    onGestureEvent={Animated.event([
-                        { nativeEvent: { translationX: pan.x } },
-                    ])}
+                    onGestureEvent={onGestureEvent}
                     onHandlerStateChange={onHandlerStateChange}
                 >
                     <Animated.View
+                        useNativeDriver={true}
                         style={[
                             styles.card,
                             { transform: [{ translateX: pan.x }] },
                         ]}
                     >
-                        <GroupCardEmail
+                        <MatchCard
                             groupData={group}
                             navigation={navigation}
                         />

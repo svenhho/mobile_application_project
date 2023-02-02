@@ -56,6 +56,7 @@ export default function GroupPage() {
     const [userGroupData, setUserGroupData] = useState([]);
 
     console.log(allGroupsData);
+
     const getUserGroupData = () => {
         try {
             // get current user's group
