@@ -18,12 +18,14 @@ const GroupUpPage = () => {
     const addToArray = (newValue) => {
         setFilteredGroupDistance([...filteredGroupsDistance, newValue]);
     }
+    console.log("group data", groupData);
+    console.log("current usergroup", currentUserGroup);
+    console.log("filteredgroups", filteredGroups);
+    console.log("currentuserdata", currentUserData);
+    console.log("DISTANSE");
+    console.log(filteredGroupsDistance);
 
-    console.log('groupData: ' + groupData);
-    console.log('currentUserGroup: ' + currentUserGroup);
-    console.log('filteredGroups: ' + filteredGroups);
-    console.log('currentUserData: ' + currentUserData);
-    console.log('filteredGroupsDistance: ' + filteredGroupsDistance);
+
 
     const checkDistance = async () => {
         const latitude1 = currentUserData.latitude;
