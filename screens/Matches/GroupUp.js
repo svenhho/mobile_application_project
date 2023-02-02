@@ -18,12 +18,13 @@ const GroupUpPage = () => {
     const addToArray = (newValue) => {
         setFilteredGroupDistance([...filteredGroupsDistance, newValue]);
     }
-    console.log("group data", groupData);
+    /**
+    console.log("group data", groupData); 
     console.log("current usergroup", currentUserGroup);
     console.log("filteredgroups", filteredGroups);
     console.log("currentuserdata", currentUserData);
     console.log("DISTANSE");
-    console.log(filteredGroupsDistance);
+    console.log(filteredGroupsDistance);*/
 
 
 
