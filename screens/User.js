@@ -10,46 +10,43 @@ import CreateNewGroup from './Groups/CreateNewGroup';
 const User = ({ navigation }) => {
     const docRef = doc(db, "users", auth.currentUser?.email);
     const [userData, setUserData] = useState([]);
-    const [userGroupData, setUserGroupData] = useState([]);
+    const [userGroupData, setUserGroupData] = useState({});
     console.log(userGroupData);
     console.log(userData);
 
 
     const getUserData = async () => {
-
         try {
             // get current user's group
             const userDocRef = doc(db, 'users', auth.currentUser?.email);
             onSnapshot(userDocRef, snapshot => {
                 setUserData(snapshot.data());
+
+                if (snapshot.data().groupid) {
+                    const groupDocRef = doc(db, 'groups', snapshot.data().groupid);
+                    onSnapshot(groupDocRef, snapshot => {
+                        setUserGroupData(snapshot.data());
+                    });
+                }
             });
-
-            if (userData.groupid) {
-                const groupDocRef = doc(db, 'groups', userData.groupid);
-                onSnapshot(groupDocRef, snapshot => {
-                    setUserGroupData(snapshot.data());
-                });
-            }
-
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     };
 
-
     useEffect(() => {
         getUserData();
-    }, []);
+    }, [auth.currentUser?.email]);
 
     console.log(userGroupData);
 
     const userNoGroup = () => {
-        if (userGroupData == []) {
+        if (Object.keys(userGroupData).length === 0) {
             return true;
         } else {
             return false;
         }
-    }
+    };
     console.log('userData: ' + userData);
 
     return (
@@ -73,7 +70,8 @@ const User = ({ navigation }) => {
                 {(userNoGroup() == true) ? (
                     <View>
                         <Text>You don't have a group  </Text>
-                        <CreateNewGroup />
+                        <CreateNewGroup
+                        />
                     </View>
                 ) : (
                     <GroupCard groupData={userGroupData} navigation={navigation} />

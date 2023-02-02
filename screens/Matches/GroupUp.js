@@ -53,9 +53,10 @@ const GroupUpPage = () => {
         }
     }
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         checkDistance();
-    }, []);
+    }, [groupData, currentUserGroup]);
+
 
 
     const getGroupData = () => {

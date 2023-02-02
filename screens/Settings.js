@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase-config';
 import { signOut } from "firebase/auth";
@@ -9,17 +9,22 @@ export default function Settings() {
     const navigation = useNavigation()
 
 
+    useEffect(() => {
+        return () => {
+            signOut(auth);
+        };
+    }, []);
+
     const signOutUser = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
             console.log("signout")
-            navigation.replace('Login')
+            navigation.replace('Login');
         }).catch((error) => {
             // An error happened.
-            console.log(error)
+            console.log(error);
         });
-    }
-
+    };
     return (
         <View styles={styles.container}>
             <Text> {auth.currentUser?.email}</Text>
