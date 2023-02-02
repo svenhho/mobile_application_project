@@ -181,7 +181,8 @@ export default function CreateNewGroup() {
         <><Button
             buttonStyle={styles.createGroupButton}
             title="Create group"
-            onPress={() => setIsModalVisible(true)} /><Modal
+            onPress={() => setIsModalVisible(true)} />
+            <Modal
                 animationType="slide"
                 transparent={true}
                 visible={isModalVisible}
@@ -191,91 +192,89 @@ export default function CreateNewGroup() {
                     <View style={styles.header}>
                         <Text style={styles.title}>Create a new group</Text>
                     </View>
-                    <KeyboardAvoidingView behavior="padding" style={styles.modalContainer}>
-                        <ScrollView style={styles.modalContainer}>
+                    <ScrollView style={styles.modalContainer}>
+                        <TextInput
+                            placeholder="Group name"
+                            value={groupName}
+                            onChangeText={setGroupName}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="Group description"
+                            value={groupDescription}
+                            onChangeText={setGroupDescription}
+                            style={styles.input}
+                        />
+                        <View style={{ alignItems: 'center' }}>
+                            <TouchableOpacity
+                                style={styles.pictureButton}
+                                onPress={pickImage}
+                            >
+                                <Text style={{ color: '#fff', textAlign: 'center' }}>Pick your profile picture</Text>
+                            </TouchableOpacity>
+                            {image && <Image
+                                source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
+                                style={styles.groupImage} />}
+                        </View>
+                        <View style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginVertical: 10,
+                        }}>
+
+
                             <TextInput
-                                placeholder="Group name"
-                                value={groupName}
-                                onChangeText={setGroupName}
-                                style={styles.input}
+                                placeholder="Member email"
+                                value={groupMemberEmail}
+                                onChangeText={setGroupMemberEmail}
+                                style={styles.inputMail}
                             />
-                            <TextInput
-                                placeholder="Group description"
-                                value={groupDescription}
-                                onChangeText={setGroupDescription}
-                                style={styles.input}
-                            />
-                            <View style={{ alignItems: 'center' }}>
-                                <TouchableOpacity
-                                    style={styles.pictureButton}
-                                    onPress={pickImage}
-                                >
-                                    <Text style={{ color: '#fff', textAlign: 'center' }}>Pick your profile picture</Text>
-                                </TouchableOpacity>
-                                {image && <Image
-                                    source={image ? { uri: image } : require('./DefaultProfileImage.jpg')}
-                                    style={styles.groupImage} />}
-                            </View>
-                            <View style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                marginVertical: 10,
-                            }}>
+                            <TouchableOpacity
+                                style={styles.addMemberButton}
+                                onPress={async () => {
+                                    if (groupMemberEmail == '') {
+                                        alert('Email field is empty');
+                                        console.log('Email field is empty');
+                                    } else if (groupMemberEmail == auth.currentUser?.email) {
+                                        alert('The email cannot be yours');
+                                        console.log('The email cannot be yours');
+                                    } else if (groupMemberEmail.trim() !== '' && await userAlreadyExists(groupMemberEmail)) {
+                                        setGroupMembers([...groupMembers, groupMemberEmail]);
+                                        setGroupMemberEmail('');
+                                        console.log(groupMembers);
+                                    } else {
+                                        alert('User does not exist');
+                                        console.log('User does not exist');
+                                    }
+                                }}
+                            >
+                                <Text style={{ color: '#fff', textAlign: 'center' }}>Add member</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            {groupMembers.map((member, index) => (
+                                <GroupMember member={member} onRemove={() => handleRemove(index)} />
+                            ))}
+                        </View>
+
+                        <TextInput
+                            placeholder=" Distance (meters)"
+                            value={radius}
+                            onChangeText={setRadius}
+                            style={styles.input}
+                            keyboardType='numeric'
+                            maxLength={6} />
+
+                        <MapComponent
+                            latitude={latitude}
+                            longitude={longitude}
+                            radius={radius}
+                            onUpdateLatitude={setLatitude}
+                            onUpdateLongitude={setLongitude}
+                        ></MapComponent>
 
 
-                                <TextInput
-                                    placeholder="Member email"
-                                    value={groupMemberEmail}
-                                    onChangeText={setGroupMemberEmail}
-                                    style={styles.inputMail}
-                                />
-                                <TouchableOpacity
-                                    style={styles.addMemberButton}
-                                    onPress={async () => {
-                                        if (groupMemberEmail == '') {
-                                            alert('Email field is empty');
-                                            console.log('Email field is empty');
-                                        } else if (groupMemberEmail == auth.currentUser?.email) {
-                                            alert('The email cannot be yours');
-                                            console.log('The email cannot be yours');
-                                        } else if (groupMemberEmail.trim() !== '' && await userAlreadyExists(groupMemberEmail)) {
-                                            setGroupMembers([...groupMembers, groupMemberEmail]);
-                                            setGroupMemberEmail('');
-                                            console.log(groupMembers);
-                                        } else {
-                                            alert('User does not exist');
-                                            console.log('User does not exist');
-                                        }
-                                    }}
-                                >
-                                    <Text style={{ color: '#fff', textAlign: 'center' }}>Add member</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View>
-                                {groupMembers.map((member, index) => (
-                                    <GroupMember member={member} onRemove={() => handleRemove(index)} />
-                                ))}
-                            </View>
-
-                            <TextInput
-                                placeholder=" Distance (meters)"
-                                value={radius}
-                                onChangeText={setRadius}
-                                style={styles.input}
-                                keyboardType='numeric'
-                                maxLength={6} />
-
-                            <MapComponent
-                                latitude={latitude}
-                                longitude={longitude}
-                                radius={radius}
-                                onUpdateLatitude={setLatitude}
-                                onUpdateLongitude={setLongitude}
-                            ></MapComponent>
-
-
-                        </ScrollView>
-                    </KeyboardAvoidingView>
+                    </ScrollView>
 
                     <View style={styles.modalButtonsContainer}>
                         <TouchableOpacity

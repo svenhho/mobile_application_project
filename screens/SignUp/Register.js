@@ -89,8 +89,6 @@ export default function Register({ navigation }) {
             onChangeText={setEmail}
             style={styles.input}
           />
-          <Text style={styles.error}>{error === 'Please fill out all fields' && !email ? 'Email is required' : ''}</Text>
-
           <TextInput
             placeholder="First name"
             value={firstName}
