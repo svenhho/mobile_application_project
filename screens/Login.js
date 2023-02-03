@@ -117,13 +117,6 @@ const styles = StyleSheet.create({
         color: '#ff5b5b',
     },
 
-    loginButton: {
-        width: '80%',
-        height: 48,
-        backgroundColor: '#ff5b5b',
-        borderRadius: 24,
-        marginVertical: 16,
-    },
     signUp: {
         alignSelf: 'center',
     },
@@ -135,7 +128,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ff5a5f',
         width: '60%',
         padding: 15,
-        borderRadius: 10,
+        borderRadius: 24,
         alignItems: 'center',
         marginTop: 10,
         marginLeft: 'auto',

@@ -178,10 +178,14 @@ export default function CreateNewGroup() {
 
 
     return (
-        <><Button
-            buttonStyle={styles.createGroupButton}
-            title="Create group"
-            onPress={() => setIsModalVisible(true)} />
+        <>
+        <TouchableOpacity
+                            style={styles.modalCancelButton}
+                            title="Create group"
+            onPress={() => setIsModalVisible(true)}
+                        >
+                            <Text style={styles.modalCancelButtonText}>Create group</Text>
+                        </TouchableOpacity>
             <Modal
                 animationType="slide"
                 transparent={true}

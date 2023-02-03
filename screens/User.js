@@ -68,10 +68,11 @@ const User = ({ navigation }) => {
             <View style={styles.userContainer}>
                 <Text style={styles.userName}>Your group</Text>
                 {(userNoGroup() == true) ? (
-                    <View>
+                    <View >
                         <Text>You don't have a group  </Text>
+                        <View style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 10}}>
                         <CreateNewGroup
-                        />
+                        /></View>
                     </View>
                 ) : (
                     <GroupCard groupData={userGroupData} navigation={navigation} />
