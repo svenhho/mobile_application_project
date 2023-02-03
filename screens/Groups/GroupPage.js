@@ -152,7 +152,7 @@ export default function GroupPage() {
             }
 
         }*/
-        
+
         allGroupsData.forEach(groupData => {
             if (userGroupData.likes && userGroupData.likes.includes(groupData.name) && groupData.likes.includes(userGroupData.name)) {
                 console.log("Previous matches", matchedGroupData);
@@ -176,7 +176,7 @@ export default function GroupPage() {
 
 
     const RenderMatched = () => {
-        
+
         /**
         const [matchingData, setMatchingData] = useState([]);
             useEffect(() => {
@@ -203,14 +203,14 @@ export default function GroupPage() {
                                     />
                                 ))}
                 </View>*/
-            return (<View></View>)
-        }
+        return (<View></View>)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             {userData.groupid == '' ? (
-            <View style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', widht: '40%'}}>
-            <CreateNewGroup /></View>) : (
+                <View style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', widht: '40%' }}>
+                    <CreateNewGroup /></View>) : (
                 <View style={styles.container}>
                     <View style={styles.header}>
                         {/* <Text style={styles.headerTitle}>Group Profile</Text> */}
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        
+
         padding: 20,
 
         backgroundColor: '#fff',

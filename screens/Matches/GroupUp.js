@@ -17,7 +17,6 @@ const GroupUpPage = () => {
     const currentUserData = groupData.find(group => group.name === currentUserGroup);
     console.log(currentUserGroup);
 
-
     const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
     const [noMoreCards, setNoMoreCards] = useState(false);
 
@@ -92,7 +91,7 @@ const GroupUpPage = () => {
 
     useEffect(() => {
         getGroupData();
-    }, []);
+    }, [auth.currentUser?.email]);
 
 
 
@@ -119,8 +118,6 @@ const GroupUpPage = () => {
     };
 
     const handleDislike = async (group) => {
-        // getGroupData();
-        console.log('swiping')
         try {
             // remove current user's group from the disliked group's 'likes' list
             const groupDocRef = doc(db, 'groups', group.name);
@@ -165,7 +162,7 @@ const GroupUpPage = () => {
 
     return (
         <View style={styles.container}>
-            {(filteredGroups.length === 0 && noMoreCards) ? (
+            {(filteredGroups.length === 0) ? (
                 <View style={styles.emptyContainer}>
                     <Text style={styles.emptyText}>No more groups to show</Text>
                 </View>
