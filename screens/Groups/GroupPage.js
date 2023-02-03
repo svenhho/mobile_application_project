@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Button, Image, View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, SafeAreaView } from 'react-native';
 import { doc, onSnapshot, collection } from 'firebase/firestore';
 import { db, auth } from '../../firebase-config';
 import { useNavigation } from '@react-navigation/native';
@@ -86,7 +86,6 @@ export default function GroupPage() {
 
     const RenderGroupMembers = () => {
         const [userNames, setUserNames] = useState([]);
-
         useEffect(() => {
             if (userGroupData.members) {
                 const groupMembers = userGroupData.members;
@@ -152,11 +151,13 @@ export default function GroupPage() {
                 }
             }
 
-        }
-        */
+        }*/
+        
         allGroupsData.forEach(groupData => {
             if (userGroupData.likes && userGroupData.likes.includes(groupData.name) && groupData.likes.includes(userGroupData.name)) {
+                console.log("Previous matches", matchedGroupData);
                 addToMatchArray();
+                console.log("New matched array", matchedGroupData);
                 //const updatedCurrentGroupData = { ...userGroupData, matches: [...userGroupData.matches, groupData.name] };
                 //const updatedGroupData = { ...groupData, matches: [...groupData.matches, userGroupData.name] };
                 //setMatchedGroupData(prevMatchedGroupData => [...prevMatchedGroupData, updatedCurrentGroupData, updatedGroupData]);
@@ -173,9 +174,43 @@ export default function GroupPage() {
         getMatchedGroupData();
     }, []);
 
+
+    const RenderMatched = () => {
+        
+        /**
+        const [matchingData, setMatchingData] = useState([]);
+            useEffect(() => {
+            if (userGroupData) {
+                const groupMembers = userGroupData.members;
+                groupMembers.forEach(member => {
+                    const userDocRef = doc(db, 'groups', member);
+                    onSnapshot(userDocRef, snapshot => {
+                        const matches = snapshot.data().matches;
+                        console.log("this")
+                        setMatchingData(prevMatches => [...prevMatches, `${matches}`]);
+                    });
+                });
+            }
+        }, []); 
+
+            return (
+                <View>
+                    {matchedGroupData.map((groupData, index) => (
+                                    <MatchCard
+                                        key={index}
+                                        groupData={groupData}
+                                        navigation={navigation}
+                                    />
+                                ))}
+                </View>*/
+            return (<View></View>)
+        }
+
     return (
-        <View style={styles.container}>
-            {userData.groupid == '' ? (<CreateNewGroup />) : (
+        <SafeAreaView style={styles.container}>
+            {userData.groupid == '' ? (
+            <View style={{marginLeft: 'auto', marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', widht: '40%'}}>
+            <CreateNewGroup /></View>) : (
                 <View style={styles.container}>
                     <View style={styles.header}>
                         {/* <Text style={styles.headerTitle}>Group Profile</Text> */}
@@ -199,18 +234,19 @@ export default function GroupPage() {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            {matchedGroupData.map((groupData, index) => (
+                            <RenderMatched />
+                            {/*matchedGroupData.map((groupData, index) => (
                                 <MatchCard
                                     key={index}
                                     groupData={groupData}
                                     navigation={navigation}
                                 />
-                            ))}
+                            ))*/}
                         </ScrollView>
                     </View>
                 </View>
             )}
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -228,7 +264,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        
         padding: 20,
 
         backgroundColor: '#fff',
@@ -250,21 +286,6 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         marginVertical: 16,
     },
-    modalContainer: {
-        position: 'absolute',
-        top: 60,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: '#fff',
-        // padding: 16,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-
-    },
     title: {
         fontSize: 32,
         marginBottom: 48,
@@ -273,7 +294,7 @@ const styles = StyleSheet.create({
     },
     userContainer: {
         alignItems: 'center',
-        marginTop: 50,
+        marginTop: 30,
     },
     userImage: {
         width: 200,
