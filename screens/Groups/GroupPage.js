@@ -155,12 +155,21 @@ export default function GroupPage() {
         
         allGroupsData.forEach(groupData => {
             if (userGroupData.likes && userGroupData.likes.includes(groupData.name) && groupData.likes.includes(userGroupData.name)) {
+                console.log("this is the group data iteration", groupData);
                 console.log("Previous matches", matchedGroupData);
-                addToMatchArray();
+                console.log(matchedGroupData.length);
+                if (matchedGroupData.length != 0){
+                    matchedGroupData.forEach(testingSame => {
+                    if (testingSame.name != groupData.name){
+                        const dataAdded = groupData;
+                        addToMatchArray(dataAdded);
+                    }
+                })
+                } else {
+                    const dataAdded = groupData;
+                    addToMatchArray(dataAdded);
+                }
                 console.log("New matched array", matchedGroupData);
-                //const updatedCurrentGroupData = { ...userGroupData, matches: [...userGroupData.matches, groupData.name] };
-                //const updatedGroupData = { ...groupData, matches: [...groupData.matches, userGroupData.name] };
-                //setMatchedGroupData(prevMatchedGroupData => [...prevMatchedGroupData, updatedCurrentGroupData, updatedGroupData]);
             }
         });
     };
@@ -235,13 +244,13 @@ export default function GroupPage() {
                             showsHorizontalScrollIndicator={false}
                         >
                             <RenderMatched />
-                            {/*matchedGroupData.map((groupData, index) => (
+                            {matchedGroupData.map((groupData, index) => (
                                 <MatchCard
                                     key={index}
                                     groupData={groupData}
                                     navigation={navigation}
                                 />
-                            ))*/}
+                            ))}
                         </ScrollView>
                     </View>
                 </View>
