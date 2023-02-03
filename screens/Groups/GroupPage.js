@@ -114,7 +114,7 @@ export default function GroupPage() {
     };
 
     const [matchedGroupData, setMatchedGroupData] = useState([]);
-
+    console.log(matchedGroupData);
     const getMatchedGroupData = () => {
         /** 
         const allGroups = allGroupsData;
